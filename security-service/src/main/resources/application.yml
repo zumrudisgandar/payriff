@@ -2,7 +2,7 @@ spring:
   application:
     name: security-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/trial
+    url: jdbc:postgresql://localhost:5432/payriff
     username: postgres
     password: zumrud
 #    username: ${POSTGRES_USERNAME}

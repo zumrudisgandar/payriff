@@ -26,25 +26,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody UserDto userDto) {
-        try{
             return ResponseEntity.ok(authService.saveUser(userDto));
-        } catch(Exception e) {
-            throw new BadRequestException("Unable to register user: " + e.getMessage());
-        }
     }
 
     @PostMapping("/token")
     public ResponseEntity<?> getToken(@RequestBody AuthRequest authRequest) {
-        try{
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             if(authenticate.isAuthenticated()) {
                 return ResponseEntity.ok(authService.generateToken(authRequest.getUsername()));
             } else {
                 throw new BadCredentialsException("Invalid access");
             }
-        } catch (Exception e) {
-            throw new BadCredentialsException("Invalid username or password");
-        }
     }
 
     @GetMapping("/validate")
@@ -52,23 +44,17 @@ public class AuthController {
         if (token == null || token.trim().isEmpty()) {
             throw new BadRequestException("Token is missing or empty");
         }
-
-        try {
             boolean isValid = authService.validateToken(token);
             if (isValid) {
                 return ResponseEntity.ok(new AuthResponse(token, "Valid token!"));
             } else {
                 throw new BadCredentialsException("Invalid token");
             }
-        } catch (Exception e) {
-            throw new BadRequestException("Invalid token");
-        }
     }
 
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
-        try {
             Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
@@ -79,8 +65,5 @@ public class AuthController {
             } else {
                 throw new BadCredentialsException("Invalid access");
             }
-        } catch (Exception e) {
-            throw new AccessDeniedException("Invalid username or password");
-        }
     }
 }

@@ -5,30 +5,43 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-<!--    <changeSet id="1" author="Dickson the developer">-->
-<!--        <addColumn schemaName="liquibase"-->
-<!--                   tableName="usercredential">-->
-<!--            <column name="address" type="varchar(255)" />-->
-<!--        </addColumn>-->
-<!--    </changeSet>-->
-<!--    <changeSet id="2" author="Dickson the developer">-->
-<!--        <addColumn schemaName="liquibase"-->
-<!--                   tableName="students">-->
-<!--            <column name="level" type="varchar(255)" />-->
-<!--        </addColumn>-->
-<!--    </changeSet>-->
-<!--    <changeSet author="dickson-the-developer" id="6">-->
-<!--        <delete schemaName="liquibase"-->
-<!--                tableName="students">-->
-<!--            <where>name='Matthew'</where>-->
-<!--        </delete>-->
-<!--    </changeSet>-->
-<!--    <changeSet author="dickson-the-developer" id="8">-->
-<!--        <createTable-->
-<!--                schemaName="liquibase"-->
-<!--                tableName="car"-->
-<!--                tablespace="A String">-->
-<!--            <column name="number-plate" type="varchar(255)"/>-->
+<!--    <changeSet  id="1"  author="alexLee">-->
+<!--        <createTable  tableName="usercredential">-->
+<!--            <column  name="address"  type="varchar(100)" />-->
+<!--            <column  name="age"  type="int"/>-->
 <!--        </createTable>-->
 <!--    </changeSet>-->
+
+    <changeSet  id="1"  author="zisgandar">
+        <addColumn  tableName="usercredential">
+            <column  name="address"  type="varchar(100)" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet  id="2"  author="zisgandar">
+        <addColumn  tableName="usercredential">
+            <column  name="age"  type="int"/>
+        </addColumn>
+    </changeSet>
+
+<!--    <changeSet  id="2"  author="zisgandar">-->
+<!--        <addLookupTable-->
+<!--                existingTableName="test"  existingColumnName="state"-->
+<!--                newTableName="state"  newColumnName="id"  newColumnDataType="char(2)"/>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="4" author="liquibase">-->
+<!--        <createTable tableName="department">-->
+<!--            <column name="id" type="int">-->
+<!--                <constraints primaryKey="true"/>-->
+<!--            </column>-->
+<!--            <column name="dept" type="varchar(255)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="emp_id" type="int">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
+
 </databaseChangeLog>
