@@ -1,10 +1,9 @@
 package com.payriff.security_ms.service;
 
+import com.payriff.security_ms.client.DictionaryFeignClient;
 import com.payriff.security_ms.dto.UserDto;
 import com.payriff.security_ms.entity.UserCredential;
 import com.payriff.security_ms.exception.RecordNotFoundException;
-import com.payriff.security_ms.repository.UserCredentialRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,49 +12,52 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserCredentialRepository userRepository;
+    private final DictionaryFeignClient dictionaryFeignClient;
+
+    public UserService(DictionaryFeignClient dictionaryFeignClient) {
+        this.dictionaryFeignClient = dictionaryFeignClient;
+    }
 
     public List<UserCredential> findAllUsers() {
-        return userRepository.findAll();
+        return dictionaryFeignClient.findAllUsers();
     }
 
     public UserCredential findUserById(Integer id) {
-        return userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("User not found"));
+        return dictionaryFeignClient.findUserById(id).orElseThrow(() -> new RecordNotFoundException("User not found"));
     }
 
     public UserCredential findUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new RecordNotFoundException("User not found"));
+        return dictionaryFeignClient.findUserByUsername(username).orElseThrow(() -> new RecordNotFoundException("User not found"));
     }
 
     public UserCredential updateUser(Integer id, UserDto userDto) {
-        UserCredential existingUser = userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("User not found"));
+        UserCredential existingUser = dictionaryFeignClient.findUserById(id).orElseThrow(() -> new RecordNotFoundException("User not found"));
         existingUser.setUsername(userDto.getUsername());
         existingUser.setEmail(userDto.getEmail());
-        return userRepository.save(existingUser);
+        return dictionaryFeignClient.saveUser(existingUser);
     }
 
     public UserCredential updateUserByUsername(String username, UserDto userDto) {
-        Optional<UserCredential> optionalUser = userRepository.findByUsername(username);
+        Optional<UserCredential> optionalUser = dictionaryFeignClient.findUserByUsername(username);
         if (optionalUser.isPresent()) {
             UserCredential existingUser = optionalUser.get();
             existingUser.setUsername(userDto.getUsername());
             existingUser.setEmail(userDto.getEmail());
-            return userRepository.save(existingUser);
+            return dictionaryFeignClient.saveUser(existingUser);
         } else {
             throw new RecordNotFoundException("User not found");
         }
     }
 
     public void deleteUserByUsername(String username) {
-        Optional<UserCredential> optionalUser = userRepository.findByUsername(username);
+        Optional<UserCredential> optionalUser = dictionaryFeignClient.findUserByUsername(username);
         if (optionalUser.isPresent()) {
-            userRepository.delete(optionalUser.get());
+            dictionaryFeignClient.deleteUserByUsername(username);
         } else {
             throw new RecordNotFoundException("User not found");
         }
     }
     public void deleteUser(Integer id) {
-        userRepository.deleteById(id);
+        dictionaryFeignClient.deleteUser(id);
     }
 }

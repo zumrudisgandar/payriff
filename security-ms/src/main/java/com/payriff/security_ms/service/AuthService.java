@@ -1,8 +1,8 @@
 package com.payriff.security_ms.service;
 
+import com.payriff.security_ms.client.DictionaryFeignClient;
 import com.payriff.security_ms.dto.UserDto;
 import com.payriff.security_ms.entity.UserCredential;
-import com.payriff.security_ms.repository.UserCredentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class AuthService {
 
     @Autowired
-    private UserCredentialRepository repository;
+    private DictionaryFeignClient dictionaryFeignClient;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -27,12 +27,12 @@ public class AuthService {
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        repository.save(user);
+        dictionaryFeignClient.saveUser(user);
         return "User added to the system";
     }
 
     public String generateToken(String userName) {
-        Optional<UserCredential> userOptional = repository.findByUsername(userName);
+        Optional<UserCredential> userOptional = dictionaryFeignClient.findUserByUsername(userName);
         if (userOptional.isPresent()) {
             UserCredential user = userOptional.get();
             Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

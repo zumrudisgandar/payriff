@@ -13,7 +13,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: security-service
+        - id: security-ms
           uri: http://localhost:9898
           predicates:
             - Path=/api/**

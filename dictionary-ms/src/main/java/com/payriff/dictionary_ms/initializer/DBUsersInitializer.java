@@ -1,7 +1,7 @@
-package com.payriff.security_ms.initializer;
+package com.payriff.dictionary_ms.initializer;
 
-import com.payriff.security_ms.entity.UserCredential;
-import com.payriff.security_ms.repository.UserCredentialRepository;
+import com.payriff.dictionary_ms.entity.UserCredential;
+import com.payriff.dictionary_ms.repository.UserCredentialRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
