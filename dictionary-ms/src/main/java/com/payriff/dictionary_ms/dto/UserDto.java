@@ -17,6 +17,6 @@ public class UserDto {
     @Email(message = "Invalid email format")
     private String email;
 
-    @Size(min = 5, message = "Password length must be at least 5")
+//    @Size(min = 5, message = "Password length must be at least 5")
     private String password;
 }

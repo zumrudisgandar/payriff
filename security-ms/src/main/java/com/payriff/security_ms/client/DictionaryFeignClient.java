@@ -10,27 +10,27 @@ import java.util.Optional;
 
 @FeignClient(name = "dictionary-ms", url = "http://localhost:8081")
 public interface DictionaryFeignClient {
-    @GetMapping("/api/users")
+    @GetMapping("/api/auth/user")
     List<UserCredential> findAllUsers();
 
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/api/auth/user/{id}")
     Optional<UserCredential> findUserById(@PathVariable("id") Integer id);
 
-    @PostMapping("/api/users")
+    @PostMapping("/api/auth/user")
     UserCredential saveUser(@RequestBody UserCredential user);
 
-    @GetMapping("/api/users/username/{username}")
+    @GetMapping("/api/auth/user/username/{username}")
     Optional<UserCredential> findUserByUsername(@PathVariable("username") String username);
 
-    @PutMapping("/api/users/{id}")
-    UserCredential updateUser(@PathVariable("id") Integer id, @RequestBody UserDto userDto);
+    @PutMapping("/api/auth/user/{id}")
+    UserCredential updateUser(@PathVariable("id") Integer id, @RequestBody UserCredential user);
 
-    @PutMapping("/api/users/username/{username}")
-    UserCredential updateUserByUsername(@PathVariable("username") String username, @RequestBody UserDto userDto);
+    @PutMapping("/api/auth/user/username/{username}")
+    UserCredential updateUserByUsername(@PathVariable("username") String username, @RequestBody UserCredential user);
 
-    @DeleteMapping("/api/users/username/{username}")
+    @DeleteMapping("/api/auth/user/username/{username}")
     void deleteUserByUsername(@PathVariable("username") String username);
 
-    @DeleteMapping("/api/users/{id}")
+    @DeleteMapping("/api/auth/user/{id}")
     void deleteUser(@PathVariable("id") Integer id);
 }

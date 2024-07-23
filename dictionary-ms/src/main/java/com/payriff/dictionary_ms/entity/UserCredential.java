@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,13 +11,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "usercredential")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCredential {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String username;
 
@@ -38,20 +37,20 @@ public class UserCredential {
         this.email = email;
     }
 
-    public List<GrantedAuthority> getAuthorities() {
-        return this.authorities.stream().map(
-                        role -> new SimpleGrantedAuthority(role))
-                .collect(Collectors.toList());
-    }
+//    public List<GrantedAuthority> getAuthorities() {
+//        return this.authorities.stream().map(
+//                        role -> new SimpleGrantedAuthority(role))
+//                .collect(Collectors.toList());
+//    }
 
     public UserCredential addRole(String authority) {
         this.authorities.add(authority);
         return this;
     }
 
-    public List<String> getAuthoritiesList() {
-        return authorities;
-    }
+//    public List<String> getAuthoritiesList() {
+//        return authorities;
+//    }
 
     @PrePersist
     @PreUpdate

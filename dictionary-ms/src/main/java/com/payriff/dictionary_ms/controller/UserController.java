@@ -2,65 +2,60 @@ package com.payriff.dictionary_ms.controller;
 
 import com.payriff.dictionary_ms.dto.UserDto;
 import com.payriff.dictionary_ms.entity.UserCredential;
-import com.payriff.dictionary_ms.repository.UserCredentialRepository;
+import com.payriff.dictionary_ms.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth/user")
 public class UserController {
 
-    private final UserCredentialRepository userCredentialRepository;
+    private final UserService userService;
 
-    public UserController(UserCredentialRepository userCredentialRepository) {
-        this.userCredentialRepository = userCredentialRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
+    @GetMapping
     public List<UserCredential> findAllUsers() {
-        return userCredentialRepository.findAll();
+        return userService.findAllUsers();
     }
 
     @PostMapping
-    public UserCredential saveUser(@RequestBody UserCredential user) {
-        return userCredentialRepository.save(user);
+    public ResponseEntity<UserCredential> saveUser(@RequestBody UserDto userDto) {
+        System.out.println("TESTING::" + userDto);
+        return ResponseEntity.ok(userService.saveUser(userDto));
     }
 
     @GetMapping("/{id}")
-    public UserCredential findUserById(@PathVariable Integer id) {
-        return userCredentialRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    public ResponseEntity<UserCredential> findUserById(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.findUserById(id).orElseThrow(() -> new RuntimeException("User not found")));
     }
 
     @GetMapping("/username/{username}")
-    public UserCredential findUserByUsername(@PathVariable String username) {
-        return userCredentialRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+    public ResponseEntity<UserCredential> findUserByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userService.findUserByUsername(username).orElseThrow(() -> new RuntimeException("User not found")));
     }
 
     @PutMapping("/{id}")
-    public UserCredential updateUser(@PathVariable Integer id, @RequestBody UserDto userDto) {
-        UserCredential user = userCredentialRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        return userCredentialRepository.save(user);
+    public ResponseEntity<UserCredential> updateUser(@PathVariable Integer id, @RequestBody UserDto userDto) {
+        return ResponseEntity.ok(userService.updateUser(id, userDto));
     }
 
     @PutMapping("/username/{username}")
-    public UserCredential updateUserByUsername(@PathVariable String username, @RequestBody UserDto userDto) {
-        UserCredential user = userCredentialRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        return userCredentialRepository.save(user);
+    public ResponseEntity<UserCredential> updateUserByUsername(@PathVariable String username, @RequestBody UserDto userDto) {
+        return ResponseEntity.ok(userService.updateUserByUsername(username, userDto));
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
-        UserCredential user = userCredentialRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        userCredentialRepository.delete(user);
+        userService.deleteUser(id);
     }
 
     @DeleteMapping("/username/{username}")
     public void deleteUserByUsername(@PathVariable String username) {
-        UserCredential user = userCredentialRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        userCredentialRepository.delete(user);
+        userService.deleteUserByUsername(username);
     }
 }

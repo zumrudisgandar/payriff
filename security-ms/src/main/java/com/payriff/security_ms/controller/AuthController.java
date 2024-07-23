@@ -3,9 +3,11 @@ package com.payriff.security_ms.controller;
 import com.payriff.security_ms.dto.AuthRequest;
 import com.payriff.security_ms.dto.AuthResponse;
 import com.payriff.security_ms.dto.UserDto;
+import com.payriff.security_ms.entity.UserCredential;
 import com.payriff.security_ms.exception.BadRequestException;
 import com.payriff.security_ms.service.AuthService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +17,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    private AuthService authService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthService authService;
+
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<?> addNewUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<UserCredential> addNewUser(@Valid @RequestBody UserDto userDto) {
             return ResponseEntity.ok(authService.saveUser(userDto));
     }
 
@@ -32,7 +34,7 @@ public class AuthController {
     public ResponseEntity<?> getToken(@RequestBody AuthRequest authRequest) {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             if(authenticate.isAuthenticated()) {
-                return ResponseEntity.ok(authService.generateToken(authRequest.getUsername()));
+                return ResponseEntity.ok(new AuthResponse(authService.generateToken(authRequest.getUsername()), "Token generated!"));
             } else {
                 throw new BadCredentialsException("Invalid access");
             }

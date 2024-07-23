@@ -53,7 +53,6 @@ public class UserController {
             }
     }
 
-
     @PutMapping("/me")
     public UserCredential updateCurrentUser(@Valid @RequestBody UserDto user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

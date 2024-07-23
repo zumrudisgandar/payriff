@@ -34,7 +34,8 @@ public class UserService {
         UserCredential existingUser = dictionaryFeignClient.findUserById(id).orElseThrow(() -> new RecordNotFoundException("User not found"));
         existingUser.setUsername(userDto.getUsername());
         existingUser.setEmail(userDto.getEmail());
-        return dictionaryFeignClient.saveUser(existingUser);
+        existingUser.setPassword(userDto.getEmail());
+        return dictionaryFeignClient.updateUser(id, existingUser);
     }
 
     public UserCredential updateUserByUsername(String username, UserDto userDto) {
@@ -43,7 +44,7 @@ public class UserService {
             UserCredential existingUser = optionalUser.get();
             existingUser.setUsername(userDto.getUsername());
             existingUser.setEmail(userDto.getEmail());
-            return dictionaryFeignClient.saveUser(existingUser);
+            return dictionaryFeignClient.updateUserByUsername(username, existingUser);
         } else {
             throw new RecordNotFoundException("User not found");
         }

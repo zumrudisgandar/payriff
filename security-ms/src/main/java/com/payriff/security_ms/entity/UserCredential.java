@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class UserCredential {
 
-    private int id;
+    private Integer id;
 
     private String username;
 
@@ -25,12 +25,6 @@ public class UserCredential {
     private String password;
 
     private String roles; //ROLE_USER;ROLE_ADMIN -> persisted in DB
-
-    public UserCredential(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
 
     private List<String> authorities = new ArrayList<>(Arrays.asList("ROLE_USER"));
 

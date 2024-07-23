@@ -10,12 +10,12 @@ spring:
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-#  liquibase:
-#    enabled: true
-#    change-log: classpath:db/changelog/changelog-master.xml
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
 
 eureka:
   instance:
@@ -29,6 +29,11 @@ eureka:
 server:
   port: 8081
 
-logging:
-  level:
-    feign: DEBUG
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web:
+#          filter:
+#            CommonsRequestLoggingFilter: debug
+#    feign: DEBUG

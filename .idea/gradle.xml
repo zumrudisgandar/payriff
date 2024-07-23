@@ -32,12 +32,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/security-service" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files (x86)/gradle-8.4" />
-        <option name="gradleJvm" value="21" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/security-ms" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/security-service" />
+            <option value="$PROJECT_DIR$/security-ms" />
           </set>
         </option>
       </GradleProjectSettings>

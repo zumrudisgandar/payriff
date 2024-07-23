@@ -28,9 +28,9 @@ public class SecurityConfig {
         return http.csrf(this::customizeCSRF)
 //        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/api/auth/user/me/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/auth/user/**").hasRole("ADMIN")
-                        .requestMatchers("/api/auth/register", "/api/auth/token", "/api/auth/validate", "/api/auth/login").permitAll()
+//                        .requestMatchers("/api/auth/user/me/**").hasAnyRole("USER", "ADMIN")
+//                        .requestMatchers("/api/auth/user/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
                 )
 
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

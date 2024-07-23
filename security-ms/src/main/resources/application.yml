@@ -29,3 +29,8 @@ eureka:
 
 server:
   port: 9898
+
+#
+#logging:
+#  level:
+#    root: DEBUG
