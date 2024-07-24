@@ -36,10 +36,12 @@ public class UserController {
             return userService.updateUser(id, userDto);
     }
 
+
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
             userService.deleteUser(id);
     }
+
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser() {

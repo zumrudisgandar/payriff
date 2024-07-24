@@ -3,6 +3,7 @@ package com.payriff.security_ms.service;
 import com.payriff.security_ms.client.DictionaryFeignClient;
 import com.payriff.security_ms.dto.CustomUserDetailsDto;
 import com.payriff.security_ms.entity.UserCredential;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

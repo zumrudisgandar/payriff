@@ -4,7 +4,6 @@ import com.payriff.security_ms.client.DictionaryFeignClient;
 import com.payriff.security_ms.dto.UserDto;
 import com.payriff.security_ms.entity.UserCredential;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

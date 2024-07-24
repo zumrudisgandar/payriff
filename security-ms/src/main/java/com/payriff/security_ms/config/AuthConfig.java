@@ -4,7 +4,6 @@ import com.payriff.security_ms.service.CustomUserDetailsService;
 import com.payriff.security_ms.service.JwtAuthenticationFilter;
 import com.payriff.security_ms.service.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,7 +40,6 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(this::customizeCSRF)
-//        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/api/auth/user/me/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/auth/user/**").hasRole("ADMIN")
