@@ -1,0 +1,18 @@
+payriff.payment:
+  sandbox:
+    merchantId: xxxx
+    merchantKey: xxxx
+    channelId: WEB
+    website: WEBSTAGING
+    industryTypeId: Retail
+    payriffUrl: https://api.payriff.com/api/v2/createOrder
+    callbackUrl: http://localhost:9090/callback
+    details:
+
+
+spring:
+  application:
+    name: payment-ms
+
+server:
+  port: 9090

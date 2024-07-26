@@ -8,7 +8,6 @@ import com.payriff.security_ms.exception.BadRequestException;
 import com.payriff.security_ms.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,12 +25,12 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<UserCredential> addNewUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<UserCredential> saveUser(@Valid @RequestBody UserDto userDto) {
             return ResponseEntity.ok(authService.saveUser(userDto));
     }
 
     @PostMapping("/token")
-    public ResponseEntity<?> getToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             if(authenticate.isAuthenticated()) {
                 return ResponseEntity.ok(new AuthResponse(authService.generateToken(authRequest.getUsername()), "Token generated!"));
