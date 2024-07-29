@@ -33,7 +33,9 @@ public class TransactionServiceImpl implements TransactionService {
         return toDTO(savedTransaction);
     }
 
-    public void updateTransactionStatus(String orderId, String status, String sessionId) {
+    public void updateTransactionStatus(String orderId,
+                                        String status,
+                                        String sessionId) {
         Transaction transaction = transactionRepository.findByOrderId(orderId);
         if (transaction != null) {
             transaction.setStatus(status);

@@ -21,7 +21,7 @@ public class PayriffController {
     @PostMapping("/createOrder")
     public ResponseEntity<String> createOrder(@RequestBody CreateOrderRequest request) {
         String paymentUrl = payriffService.createOrder(request);
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .header("Location", paymentUrl)
                 .body("Redirecting to: " + paymentUrl);
     }

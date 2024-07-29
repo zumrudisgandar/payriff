@@ -8,7 +8,7 @@ import lombok.Data;
 @Table(name = "transaction")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String orderId;
     private String sessionId;
     private int amount;

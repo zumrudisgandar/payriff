@@ -11,5 +11,7 @@ public interface DictionaryFeignClient {
     Transaction saveTransaction(@RequestBody Transaction transaction);
 
     @PutMapping("/api/v2/transaction/updateStatus")
-    void updateTransactionStatus(@RequestParam String orderId, @RequestParam String status, @RequestParam String sessionId);
+    void updateTransactionStatus(@RequestParam String orderId,
+                                 @RequestParam String status,
+                                 @RequestParam String sessionId);
 }
