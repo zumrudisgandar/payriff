@@ -1,6 +1,10 @@
 spring:
   application:
-    name: payment-ms
+    name: payriff-ms
+
+payriff:
+  api:
+    url: https://api.payriff.com/api/v2
 
 eureka:
   instance:
@@ -12,11 +16,4 @@ eureka:
       defaultZone: http://localhost:8070/eureka/
 
 server:
-  port: 9090
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 5000
+  port: 9595

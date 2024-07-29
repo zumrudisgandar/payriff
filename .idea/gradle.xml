@@ -33,6 +33,22 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/payment-ms" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/payment-ms" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/payriff-ms" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/payriff-ms" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/security-ms" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files (x86)/gradle-8.4" />
         <option name="modules">
