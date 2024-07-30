@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/api-gateway" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files (x86)/gradle-8.4" />
+        <option name="gradleJvm" value="21" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/api-gateway" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/dictionary-ms" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files (x86)/gradle-8.4" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/dictionary-ms" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/eurekaserver" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files (x86)/gradle-8.4" />
+        <option name="gradleJvm" value="21" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/eurekaserver" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/payment-ms" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/payment-ms" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/payriff-ms" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/payriff-ms" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/security-ms" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files (x86)/gradle-8.4" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/security-ms" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

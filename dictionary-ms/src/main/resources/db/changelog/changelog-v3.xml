@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet  id="create transaction table"  author="zumrudisgandarli">
+        <createTable  tableName="transaction">
+            <column name="order_id" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="session_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="response_code" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="response_description" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="card_uid" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="masked_pan" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="brand" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="transaction_type" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="tran_date_time" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="approval_code" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

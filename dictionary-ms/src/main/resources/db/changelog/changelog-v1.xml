@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<!--    <changeSet  id="1"  author="alexLee">-->
+<!--        <createTable  tableName="usercredential">-->
+<!--            <column  name="address"  type="varchar(100)" />-->
+<!--            <column  name="age"  type="int"/>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet  id="1"  author="zisgandar">-->
+<!--        <addColumn  tableName="usercredential">-->
+<!--            <column  name="address"  type="varchar(100)" />-->
+<!--        </addColumn>-->
+<!--    </changeSet>-->
+
+    <changeSet  id="1"  author="zisgandar">
+        <addColumn  tableName="usercredential">
+            <column  name="age"  type="int"/>
+        </addColumn>
+    </changeSet>
+
+<!--    <changeSet  id="2"  author="zisgandar">-->
+<!--        <addLookupTable-->
+<!--                existingTableName="test"  existingColumnName="state"-->
+<!--                newTableName="state"  newColumnName="id"  newColumnDataType="char(2)"/>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="4" author="liquibase">-->
+<!--        <createTable tableName="department">-->
+<!--            <column name="id" type="int">-->
+<!--                <constraints primaryKey="true"/>-->
+<!--            </column>-->
+<!--            <column name="dept" type="varchar(255)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="emp_id" type="int">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
+
+</databaseChangeLog>

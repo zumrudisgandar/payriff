@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: payriff-ms
+
+payriff:
+  api:
+    url: https://api.payriff.com/api/v2
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+
+server:
+  port: 9595
