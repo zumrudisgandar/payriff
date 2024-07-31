@@ -34,6 +34,7 @@ public class PayriffServiceImpl implements PayriffService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
 
             HttpEntity<CreateOrderRequest> entity = new HttpEntity<>(request, headers);
             ResponseEntity<String> response = restTemplate.exchange(

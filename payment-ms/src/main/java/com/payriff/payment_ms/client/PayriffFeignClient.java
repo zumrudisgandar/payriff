@@ -12,18 +12,20 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "payriff-ms", url = "http://localhost:9595")
+@FeignClient(name = "payriff-ms",
+        url = "http://localhost:9595/api/v2")
 public interface PayriffFeignClient {
-    @PostMapping("/api/v2/createOrder")
+
+    @PostMapping("/createOrder")
     CreateOrderResponse createOrder(@RequestBody CreateOrderRequest createOrderRequest);
 
-    @PostMapping("/api/v2/getOrderInformation")
+    @PostMapping("/getOrderInformation")
     GetOrderInformationResponse getOrderInformation (@RequestBody GetOrderInformationRequest
                                                              getOrderInformationRequest);
 
-    @PostMapping("/api/v2/getOrderStatus")
+    @PostMapping("/getOrderStatus")
     GetOrderStatusResponse getOrderStatus (@RequestBody GetOrderStatusRequest getOrderStatusRequest);
 
-    @PostMapping("/api/v2/refund")
+    @PostMapping("/refund")
     RefundResponse refund (@RequestBody RefundRequest refundRequest);
 }

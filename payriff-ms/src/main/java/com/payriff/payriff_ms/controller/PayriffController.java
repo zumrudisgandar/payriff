@@ -4,6 +4,7 @@ import com.payriff.payriff_ms.request.CreateOrderRequest;
 import com.payriff.payriff_ms.request.GetOrderInformationRequest;
 import com.payriff.payriff_ms.request.GetOrderStatusRequest;
 import com.payriff.payriff_ms.request.RefundRequest;
+import com.payriff.payriff_ms.response.CreateOrderResponse;
 import com.payriff.payriff_ms.response.GetOrderInformationResponse;
 import com.payriff.payriff_ms.response.GetOrderStatusResponse;
 import com.payriff.payriff_ms.response.RefundResponse;
@@ -25,12 +26,36 @@ public class PayriffController {
     }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<Void> createOrder(@RequestBody CreateOrderRequest request) {
-        String paymentUrl = payriffService.createOrder(request);
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .header("Location", paymentUrl)
-//                .body("Redirecting to: " + paymentUrl);
-                .build();
+    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody CreateOrderRequest request) {
+//        System.out.println("Creating order with request: " + request);
+//        String paymentUrl = payriffService.createOrder(request);
+//        System.out.println("TEST MANUAL: " + paymentUrl);
+//        return ResponseEntity.status(HttpStatus.FOUND)
+//                .header("Location", paymentUrl)
+////                .body("Redirecting to: " + paymentUrl);
+//                .build();
+        try {
+            CreateOrderResponse response = new CreateOrderResponse();
+
+            String paymentUrl = payriffService.createOrder(request);
+            System.out.println("TEST MANUAL: " + paymentUrl);
+            CreateOrderResponse.Payload payload = new CreateOrderResponse.Payload();
+            payload.setPaymentUrl(paymentUrl);
+
+            response.setPayload(payload);
+
+            response.setCode("200");
+            response.setMessage("Order created successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("TEST MANUAL: ERROR");
+            CreateOrderResponse errorResponse = new CreateOrderResponse();
+            errorResponse.setCode("500");
+            errorResponse.setMessage("Internal Server Error");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
     @PostMapping("/getOrderInformation")

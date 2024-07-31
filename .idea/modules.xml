@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/dictionary-ms.main.iml" filepath="$PROJECT_DIR$/.idea/modules/dictionary-ms.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/payriff-ms.main.iml" filepath="$PROJECT_DIR$/.idea/modules/payriff-ms.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/security-ms.main.iml" filepath="$PROJECT_DIR$/.idea/modules/security-ms.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/user-ms.iml" filepath="$PROJECT_DIR$/.idea/user-ms.iml" />
     </modules>
