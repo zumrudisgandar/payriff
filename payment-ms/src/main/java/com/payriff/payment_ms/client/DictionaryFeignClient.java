@@ -14,4 +14,5 @@ public interface DictionaryFeignClient {
     void updateTransactionStatus(@RequestParam String orderId,
                                  @RequestParam String status,
                                  @RequestParam String sessionId);
+
 }
