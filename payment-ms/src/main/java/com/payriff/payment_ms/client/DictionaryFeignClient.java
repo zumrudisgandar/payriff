@@ -1,6 +1,7 @@
 package com.payriff.payment_ms.client;
 
 import com.payriff.payment_ms.entity.Transaction;
+import com.payriff.payment_ms.enums.TransactionStatus;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,6 @@ public interface DictionaryFeignClient {
 
     @PutMapping("/api/v2/transaction/updateStatus")
     void updateTransactionStatus(@RequestParam String orderId,
-                                 @RequestParam String status,
+                                 @RequestParam TransactionStatus status,
                                  @RequestParam String sessionId);
 }
