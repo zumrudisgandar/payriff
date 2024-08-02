@@ -23,6 +23,9 @@ public class PayriffServiceImpl implements PayriffService {
     @Value("${payriff.api.url}")
     private String payriffApiUrl;
 
+    @Value("${payriff.secret-key}")
+    private String secretKey;
+
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
@@ -35,7 +38,7 @@ public class PayriffServiceImpl implements PayriffService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
+            headers.set("Authorization", secretKey);
 
             System.out.println("-----> INFO: Request URL: " + payriffApiUrl + "/createOrder");
             System.out.println("-----> INFO: Request Headers: " + headers);

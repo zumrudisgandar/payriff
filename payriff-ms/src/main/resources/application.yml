@@ -5,6 +5,7 @@ spring:
 payriff:
   api:
     url: https://api.payriff.com/api/v2
+  secret-key: XXX
 
 eureka:
   instance:
@@ -17,7 +18,3 @@ eureka:
 
 server:
   port: 9595
-
-#logging:
-#  level:
-#    root: debug
