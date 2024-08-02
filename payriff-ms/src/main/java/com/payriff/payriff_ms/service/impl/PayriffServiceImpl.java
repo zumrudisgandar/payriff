@@ -13,6 +13,7 @@ import com.payriff.payriff_ms.service.PayriffService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -36,6 +37,10 @@ public class PayriffServiceImpl implements PayriffService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
 
+            System.out.println("-----> INFO: Request URL: " + payriffApiUrl + "/createOrder");
+            System.out.println("-----> INFO: Request Headers: " + headers);
+            System.out.println("-----> INFO: Request Body: " + request);
+
             HttpEntity<CreateOrderRequest> entity = new HttpEntity<>(request, headers);
             ResponseEntity<String> response = restTemplate.exchange(
                     payriffApiUrl + "/createOrder",
@@ -44,13 +49,29 @@ public class PayriffServiceImpl implements PayriffService {
                     String.class
             );
 
+            System.out.println("-----> INFO: Response Status Code: " + response.getStatusCode());
+            System.out.println("-----> INFO: Response Body: " + response.getBody());
+
             if (response.getStatusCode() == HttpStatus.OK) {
+//                CreateOrderResponse createOrderResponse = objectMapper.readValue(response.getBody(), CreateOrderResponse.class);
+//                return createOrderResponse.getPayload().getPaymentUrl();
                 CreateOrderResponse createOrderResponse = objectMapper.readValue(response.getBody(), CreateOrderResponse.class);
+                System.out.println("-----> INFO: Parsed Order ID: " + createOrderResponse.getPayload().getOrderId());
+                System.out.println("-----> INFO: Parsed Payment URL: " + createOrderResponse.getPayload().getPaymentUrl());
+                System.out.println("-----> INFO: Parsed Session ID: " + createOrderResponse.getPayload().getSessionId());
                 return createOrderResponse.getPayload().getPaymentUrl();
             } else {
+                System.out.println("-----> INFO: MANUAL TEST 2: " + payriffApiUrl);
                 throw new RuntimeException("Failed to create order: " + response.getStatusCode());
             }
         } catch (Exception e) {
+            System.out.println("-----> INFO: MANUAL TEST 3: " + payriffApiUrl);
+            // Logging detailed error message
+            if (e instanceof HttpClientErrorException) {
+                HttpClientErrorException httpClientErrorException = (HttpClientErrorException) e;
+                System.out.println("-----> ERROR: Response Status Code: " + httpClientErrorException.getStatusCode());
+                System.out.println("-----> ERROR: Response Body: " + httpClientErrorException.getResponseBodyAsString());
+            }
             throw new RuntimeException("Exception occurred while creating order", e);
         }
     }
