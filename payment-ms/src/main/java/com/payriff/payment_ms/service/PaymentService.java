@@ -11,10 +11,11 @@ import com.payriff.payment_ms.response.RefundResponse;
 
 public interface PaymentService {
     String handleApprovedPayment(String orderId, String sessionId);
-    String handleCanceledPayment(String orderId, String sessionId);
+    String handleCanceledPayment();
     String handleDeclinedPayment(String orderId, String sessionId);
     CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest);
     GetOrderInformationResponse getOrderInformation(GetOrderInformationRequest getOrderInformationRequest);
-    GetOrderStatusResponse getOrderStatus (GetOrderStatusRequest getOrderStatusRequest);
+    GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest);
     RefundResponse refund (RefundRequest refundRequest);
+    String saveTransaction(CreateOrderResponse createOrderResponse);
 }

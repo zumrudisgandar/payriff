@@ -1,9 +1,9 @@
 package com.payriff.dictionary_ms.service;
 
 import com.payriff.dictionary_ms.dto.TransactionDto;
-import com.payriff.dictionary_ms.response.TransactionResponse;
+import com.payriff.dictionary_ms.entity.Transaction;
 
 public interface TransactionService {
-    TransactionDto saveTransaction(TransactionDto transactionDTO);
-    void updateTransactionStatus(String orderId, String status, String sessionId);
+    Transaction saveTransaction(TransactionDto transactionDTO);
+//    void updateTransactionStatus(String orderId, String status, String sessionId);
 }

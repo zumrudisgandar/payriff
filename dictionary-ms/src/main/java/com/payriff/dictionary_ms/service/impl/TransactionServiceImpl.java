@@ -18,41 +18,34 @@ public class TransactionServiceImpl implements TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public TransactionDto saveTransaction(TransactionDto transactionDTO) {
-        // Convert DTO to Entity
+    public Transaction saveTransaction(TransactionDto transactionDTO) {
         Transaction transaction = new Transaction();
-        // Set properties from DTO to Entity
-        transaction.setOrderId(transactionDTO.getOrderId());
-        transaction.setStatus(transactionDTO.getStatus());
-        transaction.setSessionId(transactionDTO.getSessionId());
-        transaction.setAmount(transactionDTO.getAmount());
+        transaction.getPayload().setOrderId(transactionDTO.getPayload().getOrderId());
+        transaction.getPayload().setSessionId(transactionDTO.getPayload().getSessionId());
+        transaction.getPayload().setPaymentUrl(transactionDTO.getPayload().getPaymentUrl());
 
-        // Save to repository
-        Transaction savedTransaction = transactionRepository.save(transaction);
-
-        return toDTO(savedTransaction);
+        return transactionRepository.save(transaction);
     }
 
-    public void updateTransactionStatus(String orderId,
-                                        String status,
-                                        String sessionId) {
-        Transaction transaction = transactionRepository.findByOrderId(orderId);
-        if (transaction != null) {
-            transaction.setStatus(status);
-            transaction.setSessionId(sessionId);
-            transactionRepository.save(transaction);
-        } else {
-        throw new TransactionNotFoundException("Transaction with orderId " + orderId + " not found.");
-        }
-    }
+//    public void updateTransactionStatus(Integer transactionId,
+//                                        String status,
+//                                        String sessionId) {
+//        Transaction transaction = transactionRepository.findByTransactionId(transactionId);
+//        if (transaction != null) {
+//            transaction.setStatus(status);
+//            transaction.getPayload().setSessionId(sessionId);
+//            transactionRepository.save(transaction);
+//        } else {
+//        throw new TransactionNotFoundException("Transaction with orderId " + orderId + " not found.");
+//        }
+//    }
 
-
-    private TransactionDto toDTO(Transaction transaction) {
-        TransactionDto dto = new TransactionDto();
-        dto.setOrderId(transaction.getOrderId());
-        dto.setStatus(transaction.getStatus());
-        dto.setSessionId(transaction.getSessionId());
-        dto.setAmount(transaction.getAmount());
-        return dto;
-    }
+//
+//    private TransactionDto toDTO(Transaction transaction) {
+//        TransactionDto dto = new TransactionDto();
+//        dto.setOrderId(transaction.getPayload().getOrderId());
+//        dto.setSessionId(transaction.getPayload().getSessionId());
+//        dto.setSessionId(transaction.getPayload().);
+//        return dto;
+//    }
 }

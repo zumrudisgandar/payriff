@@ -1,6 +1,7 @@
 package com.payriff.payriff_ms.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.payriff.payriff_ms.client.PaymentFeignClient;
 import com.payriff.payriff_ms.request.CreateOrderRequest;
 import com.payriff.payriff_ms.request.GetOrderInformationRequest;
 import com.payriff.payriff_ms.request.GetOrderStatusRequest;
@@ -28,21 +29,20 @@ public class PayriffServiceImpl implements PayriffService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final PaymentFeignClient paymentFeignClient;
 
-    public PayriffServiceImpl(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public PayriffServiceImpl(RestTemplate restTemplate, ObjectMapper objectMapper,
+                              PaymentFeignClient paymentFeignClient) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.paymentFeignClient = paymentFeignClient;
     }
 
-    public String createOrder(CreateOrderRequest request) {
+    public CreateOrderResponse createOrder(CreateOrderRequest request) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("Authorization", secretKey);
-
-            System.out.println("-----> INFO: Request URL: " + payriffApiUrl + "/createOrder");
-            System.out.println("-----> INFO: Request Headers: " + headers);
-            System.out.println("-----> INFO: Request Body: " + request);
 
             HttpEntity<CreateOrderRequest> entity = new HttpEntity<>(request, headers);
             ResponseEntity<String> response = restTemplate.exchange(
@@ -52,28 +52,18 @@ public class PayriffServiceImpl implements PayriffService {
                     String.class
             );
 
-            System.out.println("-----> INFO: Response Status Code: " + response.getStatusCode());
-            System.out.println("-----> INFO: Response Body: " + response.getBody());
-
             if (response.getStatusCode() == HttpStatus.OK) {
-//                CreateOrderResponse createOrderResponse = objectMapper.readValue(response.getBody(), CreateOrderResponse.class);
-//                return createOrderResponse.getPayload().getPaymentUrl();
-                CreateOrderResponse createOrderResponse = objectMapper.readValue(response.getBody(), CreateOrderResponse.class);
-                System.out.println("-----> INFO: Parsed Order ID: " + createOrderResponse.getPayload().getOrderId());
-                System.out.println("-----> INFO: Parsed Payment URL: " + createOrderResponse.getPayload().getPaymentUrl());
-                System.out.println("-----> INFO: Parsed Session ID: " + createOrderResponse.getPayload().getSessionId());
-                return createOrderResponse.getPayload().getPaymentUrl();
+                CreateOrderResponse createOrderResponse = objectMapper.readValue(response.getBody(),
+                                    CreateOrderResponse.class);
+
+                paymentFeignClient.saveTransaction(createOrderResponse);
+                return createOrderResponse;
             } else {
-                System.out.println("-----> INFO: MANUAL TEST 2: " + payriffApiUrl);
                 throw new RuntimeException("Failed to create order: " + response.getStatusCode());
             }
         } catch (Exception e) {
-            System.out.println("-----> INFO: MANUAL TEST 3: " + payriffApiUrl);
-            // Logging detailed error message
             if (e instanceof HttpClientErrorException) {
                 HttpClientErrorException httpClientErrorException = (HttpClientErrorException) e;
-                System.out.println("-----> ERROR: Response Status Code: " + httpClientErrorException.getStatusCode());
-                System.out.println("-----> ERROR: Response Body: " + httpClientErrorException.getResponseBodyAsString());
             }
             throw new RuntimeException("Exception occurred while creating order", e);
         }
@@ -83,6 +73,7 @@ public class PayriffServiceImpl implements PayriffService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", secretKey);
 
             HttpEntity<GetOrderInformationRequest> entity = new HttpEntity<>(getOrderInformationRequest, headers);
             ResponseEntity<String> response = restTemplate.exchange(
@@ -102,14 +93,15 @@ public class PayriffServiceImpl implements PayriffService {
         }
     }
 
-    public GetOrderStatusResponse getOrderStatus (GetOrderStatusRequest getOrderStatusRequest) {
+    public GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", secretKey);
 
             HttpEntity<GetOrderStatusRequest> entity = new HttpEntity<>(getOrderStatusRequest, headers);
             ResponseEntity<String> response = restTemplate.exchange(
-                    payriffApiUrl + "/getOrderStatus",
+                    payriffApiUrl + "/getStatusOrder",
                     HttpMethod.POST,
                     entity,
                     String.class
@@ -129,6 +121,7 @@ public class PayriffServiceImpl implements PayriffService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", secretKey);
 
             HttpEntity<RefundRequest> entity = new HttpEntity<>(refundRequest, headers);
             ResponseEntity<String> response = restTemplate.exchange(

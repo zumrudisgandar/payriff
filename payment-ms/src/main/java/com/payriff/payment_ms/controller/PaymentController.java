@@ -29,14 +29,20 @@ public class PaymentController {
     }
 
     @GetMapping("/transaction/canceled")
-    public ResponseEntity<String> paymentCanceled(@RequestParam String orderId, @RequestParam String sessionId) {
-        String response = paymentService.handleCanceledPayment(orderId, sessionId);
+    public ResponseEntity<String> paymentCanceled() {
+        String response = paymentService.handleCanceledPayment();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/transaction/declined")
     public ResponseEntity<String> paymentDeclined(@RequestParam String orderId, @RequestParam String sessionId) {
         String response = paymentService.handleDeclinedPayment(orderId, sessionId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/saveTransaction")
+    public ResponseEntity<String> saveTransaction(@RequestBody CreateOrderResponse createOrderResponse) {
+        String response = paymentService.saveTransaction(createOrderResponse);
         return ResponseEntity.ok(response);
     }
 
@@ -53,10 +59,10 @@ public class PaymentController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/getOrderStatus")
-    public ResponseEntity<GetOrderStatusResponse> getOrderStatus (@RequestBody GetOrderStatusRequest
+    @PostMapping("/getStatusOrder")
+    public ResponseEntity<GetOrderStatusResponse> getStatusOrder (@RequestBody GetOrderStatusRequest
                                                                           getOrderStatusRequest) {
-        GetOrderStatusResponse response = paymentService.getOrderStatus(getOrderStatusRequest);
+        GetOrderStatusResponse response = paymentService.getStatusOrder(getOrderStatusRequest);
         return ResponseEntity.ok(response);
     }
 

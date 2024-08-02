@@ -23,8 +23,8 @@ public interface PayriffFeignClient {
     GetOrderInformationResponse getOrderInformation (@RequestBody GetOrderInformationRequest
                                                              getOrderInformationRequest);
 
-    @PostMapping("/getOrderStatus")
-    GetOrderStatusResponse getOrderStatus (@RequestBody GetOrderStatusRequest getOrderStatusRequest);
+    @PostMapping("/getStatusOrder")
+    GetOrderStatusResponse getStatusOrder (@RequestBody GetOrderStatusRequest getOrderStatusRequest);
 
     @PostMapping("/refund")
     RefundResponse refund (@RequestBody RefundRequest refundRequest);

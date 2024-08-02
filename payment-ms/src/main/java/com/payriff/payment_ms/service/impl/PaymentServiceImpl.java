@@ -33,13 +33,14 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
-    public String handleCanceledPayment(String orderId, String sessionId) {
-        try {
-            dictionaryFeignClient.updateTransactionStatus(orderId, TransactionStatus.CANCELLED, sessionId);
-            return "Payment Canceled. Order ID: " + orderId + ", Session ID: " + sessionId;
-        } catch (Exception e) {
-            return "Failed to update canceled payment: " + e.getMessage();
-        }
+    public String handleCanceledPayment() {
+//        try {
+//            dictionaryFeignClient.updateTransactionStatus(orderId, TransactionStatus.CANCELLED, sessionId);
+//            return "Payment Canceled. Order ID: " + orderId + ", Session ID: " + sessionId;
+//        } catch (Exception e) {
+//            return "Failed to update canceled payment: " + e.getMessage();
+//        }
+        return "Payment Cancelled";
     }
 
     public String handleDeclinedPayment(String orderId, String sessionId) {
@@ -59,11 +60,21 @@ public class PaymentServiceImpl implements PaymentService {
         return payriffFeignClient.getOrderInformation(getOrderInformationRequest);
     }
 
-    public GetOrderStatusResponse getOrderStatus (GetOrderStatusRequest getOrderStatusRequest) {
-        return payriffFeignClient.getOrderStatus(getOrderStatusRequest);
+    public GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest) {
+        return payriffFeignClient.getStatusOrder(getOrderStatusRequest);
     }
 
     public RefundResponse refund (RefundRequest refundRequest) {
         return payriffFeignClient.refund(refundRequest);
+    }
+
+    public String saveTransaction(CreateOrderResponse createOrderResponse) {
+        try {
+            System.out.println("MANUAL TEST: " + createOrderResponse);
+            dictionaryFeignClient.saveTransaction(createOrderResponse);
+            return "Transaction saved: " + createOrderResponse;
+        } catch (Exception e) {
+            return "Failed to update approved payment: " + e.getMessage();
+        }
     }
 }

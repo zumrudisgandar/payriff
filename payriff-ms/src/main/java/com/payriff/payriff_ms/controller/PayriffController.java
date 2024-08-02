@@ -27,21 +27,14 @@ public class PayriffController {
 
     @PostMapping("/createOrder")
     public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody CreateOrderRequest request) {
-//        System.out.println("Creating order with request: " + request);
-//        String paymentUrl = payriffService.createOrder(request);
-//        System.out.println("TEST MANUAL: " + paymentUrl);
-//        return ResponseEntity.status(HttpStatus.FOUND)
-//                .header("Location", paymentUrl)
-////                .body("Redirecting to: " + paymentUrl);
-//                .build();
         try {
             CreateOrderResponse response = new CreateOrderResponse();
 
-            String paymentUrl = payriffService.createOrder(request);
-            System.out.println("TEST MANUAL: " + paymentUrl);
+            CreateOrderResponse response1 = payriffService.createOrder(request);
             CreateOrderResponse.Payload payload = new CreateOrderResponse.Payload();
-            payload.setPaymentUrl(paymentUrl);
-
+            payload.setPaymentUrl(response1.getPayload().getPaymentUrl());
+            payload.setOrderId(response1.getPayload().getOrderId());
+            payload.setSessionId(response1.getPayload().getSessionId());
             response.setPayload(payload);
 
             response.setCode("200");
@@ -65,10 +58,10 @@ public class PayriffController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/getOrderStatus")
-    public ResponseEntity<GetOrderStatusResponse> getOrderStatus (@RequestBody GetOrderStatusRequest
+    @PostMapping("/getStatusOrder")
+    public ResponseEntity<GetOrderStatusResponse> getStatusOrder (@RequestBody GetOrderStatusRequest
                                                                           GetOrderStatusRequest) {
-        GetOrderStatusResponse response = payriffService.getOrderStatus(GetOrderStatusRequest);
+        GetOrderStatusResponse response = payriffService.getStatusOrder(GetOrderStatusRequest);
         return ResponseEntity.ok(response);
     }
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateOrderResponse {
     private String code;
     private String internalMessage;
@@ -17,10 +18,11 @@ public class CreateOrderResponse {
         @JsonProperty("orderId")
         private String orderId;
 
+        @JsonProperty("paymentUrl")
+        private String paymentUrl;
+
         @JsonProperty("sessionId")
         private String sessionId;
 
-        @JsonProperty("paymentUrl")
-        private String paymentUrl;
     }
 }
