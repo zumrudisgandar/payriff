@@ -1,5 +1,6 @@
 package com.payriff.payment_ms.controller;
 
+import com.payriff.payment_ms.entity.Transaction;
 import com.payriff.payment_ms.request.*;
 import com.payriff.payment_ms.response.*;
 import com.payriff.payment_ms.service.PaymentService;
@@ -35,8 +36,8 @@ public class PaymentController {
     }
 
     @PostMapping("/saveTransaction")
-    public ResponseEntity<String> saveTransaction(@RequestBody CreateOrderResponse createOrderResponse, String orderStatus) {
-        String response = paymentService.saveTransaction(createOrderResponse, orderStatus);
+    public ResponseEntity<String> saveTransaction(@RequestBody Transaction transaction) {
+        String response = paymentService.saveTransaction(transaction);
         return ResponseEntity.ok(response);
     }
 

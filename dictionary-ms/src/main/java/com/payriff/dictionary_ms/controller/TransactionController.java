@@ -16,8 +16,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/saveTransaction")
-    public ResponseEntity<Transaction> saveTransaction(@RequestBody TransactionDto transactionDto, String orderStatus) {
-        return ResponseEntity.ok(transactionService.saveTransaction(transactionDto, orderStatus));
+    public ResponseEntity<Transaction> saveTransaction(@RequestBody TransactionDto transactionDto) {
+        return ResponseEntity.ok(transactionService.saveTransaction(transactionDto));
     }
 //    @PutMapping("/updateStatus")
 //    public ResponseEntity<Void> updateTransactionStatus(

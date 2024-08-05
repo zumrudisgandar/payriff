@@ -2,6 +2,7 @@ package com.payriff.payment_ms.service.impl;
 
 import com.payriff.payment_ms.client.DictionaryFeignClient;
 import com.payriff.payment_ms.client.PayriffFeignClient;
+import com.payriff.payment_ms.entity.Transaction;
 import com.payriff.payment_ms.enums.TransactionStatus;
 import com.payriff.payment_ms.request.*;
 import com.payriff.payment_ms.response.*;
@@ -62,11 +63,11 @@ public class PaymentServiceImpl implements PaymentService {
         return payriffFeignClient.refund(refundRequest);
     }
 
-    public String saveTransaction(CreateOrderResponse createOrderResponse, String orderStatus) {
+    public String saveTransaction(Transaction transaction) {
         try {
-            System.out.println("MANUAL TEST: " + createOrderResponse + orderStatus);
-            dictionaryFeignClient.saveTransaction(createOrderResponse, orderStatus);
-            return "Transaction saved: " + createOrderResponse + orderStatus;
+            System.out.println("MANUAL TEST: " + transaction);
+            dictionaryFeignClient.saveTransaction(transaction);
+            return "Transaction saved: " + transaction;
         } catch (Exception e) {
             return "Failed to update approved payment: " + e.getMessage();
         }

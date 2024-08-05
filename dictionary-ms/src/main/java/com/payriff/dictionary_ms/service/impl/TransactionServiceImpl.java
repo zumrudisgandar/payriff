@@ -7,6 +7,7 @@ import com.payriff.dictionary_ms.repository.TransactionRepository;
 import com.payriff.dictionary_ms.response.TransactionResponse;
 import com.payriff.dictionary_ms.service.TransactionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -18,7 +19,8 @@ public class TransactionServiceImpl implements TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Transaction saveTransaction(TransactionDto transactionDTO, String orderStatus) {
+    @Transactional
+    public Transaction saveTransaction(TransactionDto transactionDTO) {
         Transaction transaction = new Transaction();
         Transaction.Payload payload = new Transaction.Payload();
 
@@ -28,7 +30,7 @@ public class TransactionServiceImpl implements TransactionService {
         payload.setOrderId(transactionDTO.getPayload().getOrderId());
         payload.setSessionId(transactionDTO.getPayload().getSessionId());
         payload.setPaymentUrl(transactionDTO.getPayload().getPaymentUrl());
-        payload.setOrderStatus(orderStatus);
+        payload.setOrderStatus(transactionDTO.getPayload().getOrderStatus());
 
         transaction.setPayload(payload);
 

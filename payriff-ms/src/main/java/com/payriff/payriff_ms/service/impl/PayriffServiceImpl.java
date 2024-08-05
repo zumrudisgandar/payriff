@@ -32,6 +32,7 @@ public class PayriffServiceImpl implements PayriffService {
         this.paymentFeignClient = paymentFeignClient;
     }
 
+
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -51,10 +52,22 @@ public class PayriffServiceImpl implements PayriffService {
                                     CreateOrderResponse.class);
 
                 GetOrderStatusRequest getOrderStatusRequest = getGetOrderStatusRequest(request, createOrderResponse);
-
                 GetOrderStatusResponse.Payload getOrderStatusResponse = getStatusOrder(getOrderStatusRequest).getPayload();
 
-                paymentFeignClient.saveTransaction(createOrderResponse, getOrderStatusResponse.getOrderStatus());
+                CreateOrderResponseDto createOrderResponseDto = new CreateOrderResponseDto();
+                CreateOrderResponseDto.Payload payload = new CreateOrderResponseDto.Payload();
+                createOrderResponseDto.setMessage(createOrderResponse.getMessage());
+                createOrderResponseDto.setCode(createOrderResponse.getCode());
+                createOrderResponseDto.setInternalMessage(createOrderResponse.getInternalMessage());
+
+                payload.setPaymentUrl(createOrderResponse.getPayload().getPaymentUrl());
+                payload.setSessionId(createOrderResponse.getPayload().getSessionId());
+                payload.setOrderId(createOrderResponse.getPayload().getOrderId());
+                payload.setOrderStatus(getOrderStatusResponse.getOrderStatus());
+
+                createOrderResponseDto.setPayload(payload);
+
+                paymentFeignClient.saveTransaction(createOrderResponseDto);
                 return createOrderResponse;
             } else {
                 throw new RuntimeException("Failed to create order: " + response.getStatusCode());

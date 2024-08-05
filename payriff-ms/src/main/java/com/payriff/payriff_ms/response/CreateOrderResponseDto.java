@@ -1,4 +1,5 @@
-package com.payriff.dictionary_ms.dto;
+package com.payriff.payriff_ms.response;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionDto {
+public class CreateOrderResponseDto {
     private String code;
     private String internalMessage;
     private String message;

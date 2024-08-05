@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "dictionary-ms", url = "http://localhost:8081")
 public interface DictionaryFeignClient {
     @PostMapping("/api/v2/saveTransaction")
-    Transaction saveTransaction(@RequestBody CreateOrderResponse createOrderResponse, String orderStatus);
+    Transaction saveTransaction(@RequestBody Transaction transaction);
 
     @PutMapping("/api/v2/updateStatus")
     void updateTransactionStatus(@RequestParam String orderId,
