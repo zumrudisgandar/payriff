@@ -2,14 +2,8 @@ package com.payriff.payriff_ms.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payriff.payriff_ms.client.PaymentFeignClient;
-import com.payriff.payriff_ms.request.CreateOrderRequest;
-import com.payriff.payriff_ms.request.GetOrderInformationRequest;
-import com.payriff.payriff_ms.request.GetOrderStatusRequest;
-import com.payriff.payriff_ms.request.RefundRequest;
-import com.payriff.payriff_ms.response.CreateOrderResponse;
-import com.payriff.payriff_ms.response.GetOrderInformationResponse;
-import com.payriff.payriff_ms.response.GetOrderStatusResponse;
-import com.payriff.payriff_ms.response.RefundResponse;
+import com.payriff.payriff_ms.request.*;
+import com.payriff.payriff_ms.response.*;
 import com.payriff.payriff_ms.service.PayriffService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -138,6 +132,81 @@ public class PayriffServiceImpl implements PayriffService {
             }
         } catch (Exception e) {
             throw new RuntimeException("Exception occured during refund process", e);
+        }
+
+
+    }
+    @Override
+    public PreAuthResponse preAuth(PreAuthRequest preAuthRequest) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
+
+            HttpEntity<PreAuthRequest> entity = new HttpEntity<>(preAuthRequest, headers);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    payriffApiUrl + "/preAuth",
+                    HttpMethod.POST,
+                    entity,
+                    String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return objectMapper.readValue(response.getBody(), PreAuthResponse.class);
+            } else {
+                throw new RuntimeException("Failed to preAuth: " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Exception occurred during pre-auth process", e);
+        }
+    }
+    @Override
+    public ReverseResponse reverse(ReverseRequest reverseRequest) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
+
+            HttpEntity<ReverseRequest> entity = new HttpEntity<>(reverseRequest, headers);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    payriffApiUrl + "/reverse",
+                    HttpMethod.POST,
+                    entity,
+                    String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return objectMapper.readValue(response.getBody(), ReverseResponse.class);
+            } else {
+                throw new RuntimeException("Failed to preAuth: " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Exception occurred during pre-auth process", e);
+        }
+    }
+
+    @Override
+    public CompleteOrderResponse completeOrder(CompleteOrderRequest completeOrderRequest) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
+
+            HttpEntity<CompleteOrderRequest> entity = new HttpEntity<>(completeOrderRequest, headers);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    payriffApiUrl + "/completeOrder",
+                    HttpMethod.POST,
+                    entity,
+                    String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return objectMapper.readValue(response.getBody(), CompleteOrderResponse.class);
+            } else {
+                throw new RuntimeException("Failed to preAuth: " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Exception occurred during pre-auth process", e);
         }
     }
 }

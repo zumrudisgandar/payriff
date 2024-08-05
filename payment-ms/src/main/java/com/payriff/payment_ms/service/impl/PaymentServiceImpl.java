@@ -3,14 +3,8 @@ package com.payriff.payment_ms.service.impl;
 import com.payriff.payment_ms.client.DictionaryFeignClient;
 import com.payriff.payment_ms.client.PayriffFeignClient;
 import com.payriff.payment_ms.enums.TransactionStatus;
-import com.payriff.payment_ms.request.CreateOrderRequest;
-import com.payriff.payment_ms.request.GetOrderInformationRequest;
-import com.payriff.payment_ms.request.GetOrderStatusRequest;
-import com.payriff.payment_ms.request.RefundRequest;
-import com.payriff.payment_ms.response.CreateOrderResponse;
-import com.payriff.payment_ms.response.GetOrderInformationResponse;
-import com.payriff.payment_ms.response.GetOrderStatusResponse;
-import com.payriff.payment_ms.response.RefundResponse;
+import com.payriff.payment_ms.request.*;
+import com.payriff.payment_ms.response.*;
 import com.payriff.payment_ms.service.PaymentService;
 import org.springframework.stereotype.Service;
 
@@ -76,5 +70,19 @@ public class PaymentServiceImpl implements PaymentService {
         } catch (Exception e) {
             return "Failed to update approved payment: " + e.getMessage();
         }
+    }
+    @Override
+    public PreAuthResponse preAuth(PreAuthRequest preAuthRequest) {
+        return payriffFeignClient.preAuth(preAuthRequest);
+    }
+
+    @Override
+    public ReverseResponse reverse(ReverseRequest reverseRequest) {
+        return payriffFeignClient.reverse(reverseRequest);
+    }
+
+    @Override
+    public CompleteOrderResponse completeOrder(CompleteOrderRequest completeOrderRequest) {
+        return payriffFeignClient.completeOrder(completeOrderRequest);
     }
 }

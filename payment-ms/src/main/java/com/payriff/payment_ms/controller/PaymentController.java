@@ -1,13 +1,7 @@
 package com.payriff.payment_ms.controller;
 
-import com.payriff.payment_ms.request.CreateOrderRequest;
-import com.payriff.payment_ms.request.GetOrderInformationRequest;
-import com.payriff.payment_ms.request.GetOrderStatusRequest;
-import com.payriff.payment_ms.request.RefundRequest;
-import com.payriff.payment_ms.response.CreateOrderResponse;
-import com.payriff.payment_ms.response.GetOrderInformationResponse;
-import com.payriff.payment_ms.response.GetOrderStatusResponse;
-import com.payriff.payment_ms.response.RefundResponse;
+import com.payriff.payment_ms.request.*;
+import com.payriff.payment_ms.response.*;
 import com.payriff.payment_ms.service.PaymentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,6 +63,24 @@ public class PaymentController {
     @PostMapping("/refund")
     public ResponseEntity<RefundResponse> refundResponse (@RequestBody RefundRequest refundRequest) {
         RefundResponse response = paymentService.refund(refundRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/preAuth")
+    public ResponseEntity<PreAuthResponse> preAuth (@RequestBody PreAuthRequest request) {
+        PreAuthResponse response = paymentService.preAuth(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reverse")
+    public ResponseEntity<ReverseResponse> reverse (@RequestBody ReverseRequest request) {
+        ReverseResponse response = paymentService.reverse(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/completeOrder")
+    public ResponseEntity<CompleteOrderResponse> completeOrder (@RequestBody CompleteOrderRequest request) {
+        CompleteOrderResponse response = paymentService.completeOrder(request);
         return ResponseEntity.ok(response);
     }
 
