@@ -20,9 +20,16 @@ public class TransactionServiceImpl implements TransactionService {
 
     public Transaction saveTransaction(TransactionDto transactionDTO) {
         Transaction transaction = new Transaction();
-        transaction.getPayload().setOrderId(transactionDTO.getPayload().getOrderId());
-        transaction.getPayload().setSessionId(transactionDTO.getPayload().getSessionId());
-        transaction.getPayload().setPaymentUrl(transactionDTO.getPayload().getPaymentUrl());
+        Transaction.Payload payload = new Transaction.Payload();
+
+        transaction.setCode(transactionDTO.getCode());
+        transaction.setMessage(transactionDTO.getMessage());
+        transaction.setInternalMessage(transactionDTO.getInternalMessage());
+        payload.setOrderId(transactionDTO.getPayload().getOrderId());
+        payload.setSessionId(transactionDTO.getPayload().getSessionId());
+        payload.setPaymentUrl(transactionDTO.getPayload().getPaymentUrl());
+
+        transaction.setPayload(payload);
 
         return transactionRepository.save(transaction);
     }
