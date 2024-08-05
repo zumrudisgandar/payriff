@@ -12,4 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface PaymentFeignClient {
     @PostMapping("/saveTransaction")
     ResponseEntity<String> saveTransaction(@RequestBody CreateOrderResponseDto createOrderResponseDto);
+
+    @PostMapping("/updateTransaction")
+    ResponseEntity<String> updateTransaction(@RequestBody CreateOrderResponseDto createOrderResponseDto);
 }

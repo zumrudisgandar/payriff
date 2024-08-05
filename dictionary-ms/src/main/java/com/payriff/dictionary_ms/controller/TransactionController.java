@@ -5,6 +5,7 @@ import com.payriff.dictionary_ms.entity.Transaction;
 import com.payriff.dictionary_ms.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,10 @@ public class TransactionController {
     public ResponseEntity<Transaction> saveTransaction(@RequestBody TransactionDto transactionDto) {
         return ResponseEntity.ok(transactionService.saveTransaction(transactionDto));
     }
-//    @PutMapping("/updateStatus")
-//    public ResponseEntity<Void> updateTransactionStatus(
-//            @RequestParam String orderId,
-//            @RequestParam String status,
-//            @RequestParam String sessionId) {
-//        transactionService.updateTransactionStatus(orderId, status, sessionId);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PutMapping("/updateTransaction")
+    public ResponseEntity<Void> updateTransaction(
+            @RequestBody TransactionDto transactionDto) {
+        transactionService.updateTransaction(transactionDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

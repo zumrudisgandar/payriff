@@ -17,27 +17,22 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @GetMapping("/transaction/approved")
-    public ResponseEntity<String> paymentApproved(@RequestParam String orderId, @RequestParam String sessionId) {
-        String response = paymentService.handleApprovedPayment(orderId, sessionId);
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/transaction/canceled")
     public ResponseEntity<String> paymentCanceled() {
         String response = paymentService.handleCanceledPayment();
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/transaction/declined")
-    public ResponseEntity<String> paymentDeclined(@RequestParam String orderId, @RequestParam String sessionId) {
-        String response = paymentService.handleDeclinedPayment(orderId, sessionId);
-        return ResponseEntity.ok(response);
-    }
 
     @PostMapping("/saveTransaction")
     public ResponseEntity<String> saveTransaction(@RequestBody Transaction transaction) {
         String response = paymentService.saveTransaction(transaction);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/updateTransaction")
+    public ResponseEntity<String> updateTransaction(@RequestBody Transaction transaction) {
+        String response = paymentService.updateTransaction(transaction);
         return ResponseEntity.ok(response);
     }
 

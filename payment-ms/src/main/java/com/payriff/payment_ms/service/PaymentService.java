@@ -5,9 +5,7 @@ import com.payriff.payment_ms.request.*;
 import com.payriff.payment_ms.response.*;
 
 public interface PaymentService {
-    String handleApprovedPayment(String orderId, String sessionId);
     String handleCanceledPayment();
-    String handleDeclinedPayment(String orderId, String sessionId);
     CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest);
     GetOrderInformationResponse getOrderInformation(GetOrderInformationRequest getOrderInformationRequest);
     GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest);
@@ -16,4 +14,5 @@ public interface PaymentService {
     ReverseResponse reverse (ReverseRequest reverseRequest);
     CompleteOrderResponse completeOrder (CompleteOrderRequest completeOrderRequest);
     String saveTransaction(Transaction transaction);
+    String updateTransaction(Transaction transaction);
 }

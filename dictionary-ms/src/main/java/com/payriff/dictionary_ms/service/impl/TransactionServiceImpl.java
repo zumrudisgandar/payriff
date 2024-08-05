@@ -6,8 +6,11 @@ import com.payriff.dictionary_ms.exception.TransactionNotFoundException;
 import com.payriff.dictionary_ms.repository.TransactionRepository;
 import com.payriff.dictionary_ms.response.TransactionResponse;
 import com.payriff.dictionary_ms.service.TransactionService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -37,18 +40,29 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.save(transaction);
     }
 
-//    public void updateTransactionStatus(Integer transactionId,
-//                                        String status,
-//                                        String sessionId) {
-//        Transaction transaction = transactionRepository.findByTransactionId(transactionId);
-//        if (transaction != null) {
-//            transaction.setStatus(status);
-//            transaction.getPayload().setSessionId(sessionId);
-//            transactionRepository.save(transaction);
-//        } else {
-//        throw new TransactionNotFoundException("Transaction with orderId " + orderId + " not found.");
-//        }
-//    }
+    @Transactional
+    public void updateTransaction(TransactionDto transactionDTO) {
+        Optional<Transaction> existingTransactionOptional = transactionRepository.findByPayloadOrderId(transactionDTO.getPayload().getOrderId());
+
+        if (existingTransactionOptional.isPresent()) {
+            Transaction existingTransaction = existingTransactionOptional.get();
+
+            existingTransaction.setCode(transactionDTO.getCode());
+            existingTransaction.setMessage(transactionDTO.getMessage());
+            existingTransaction.setInternalMessage(transactionDTO.getInternalMessage());
+
+            Transaction.Payload payload = existingTransaction.getPayload();
+            payload.setOrderId(transactionDTO.getPayload().getOrderId());
+            payload.setSessionId(transactionDTO.getPayload().getSessionId());
+            payload.setPaymentUrl(transactionDTO.getPayload().getPaymentUrl());
+            payload.setOrderStatus(transactionDTO.getPayload().getOrderStatus());
+
+            // Save the updated transaction
+            transactionRepository.save(existingTransaction);
+        } else {
+            throw new EntityNotFoundException("Transaction with orderId " + transactionDTO.getPayload().getOrderId() + " not found");
+        }
+    }
 
 //
 //    private TransactionDto toDTO(Transaction transaction) {

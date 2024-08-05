@@ -3,7 +3,6 @@ package com.payriff.payment_ms.service.impl;
 import com.payriff.payment_ms.client.DictionaryFeignClient;
 import com.payriff.payment_ms.client.PayriffFeignClient;
 import com.payriff.payment_ms.entity.Transaction;
-import com.payriff.payment_ms.enums.TransactionStatus;
 import com.payriff.payment_ms.request.*;
 import com.payriff.payment_ms.response.*;
 import com.payriff.payment_ms.service.PaymentService;
@@ -19,34 +18,9 @@ public class PaymentServiceImpl implements PaymentService {
         this.payriffFeignClient = payriffFeignClient;
     }
 
-    public String handleApprovedPayment(String orderId, String sessionId) {
-        try {
-            dictionaryFeignClient.updateTransactionStatus(orderId, TransactionStatus.APPROVED, sessionId);
-            return "Payment Approved. Order ID: " + orderId + ", Session ID: " + sessionId;
-        } catch (Exception e) {
-            return "Failed to update approved payment: " + e.getMessage();
-        }
-    }
-
     public String handleCanceledPayment() {
-//        try {
-//            dictionaryFeignClient.updateTransactionStatus(orderId, TransactionStatus.CANCELLED, sessionId);
-//            return "Payment Canceled. Order ID: " + orderId + ", Session ID: " + sessionId;
-//        } catch (Exception e) {
-//            return "Failed to update canceled payment: " + e.getMessage();
-//        }
         return "Payment Cancelled";
     }
-
-    public String handleDeclinedPayment(String orderId, String sessionId) {
-        try {
-            dictionaryFeignClient.updateTransactionStatus(orderId, TransactionStatus.DECLINED, sessionId);
-            return "Payment Declined. Order ID: " + orderId + ", Session ID: " + sessionId;
-        } catch (Exception e) {
-            return "Failed to update declined payment: " + e.getMessage();
-        }
-    }
-
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest) {
         return payriffFeignClient.createOrder(createOrderRequest);
     }
@@ -72,6 +46,17 @@ public class PaymentServiceImpl implements PaymentService {
             return "Failed to update approved payment: " + e.getMessage();
         }
     }
+
+    @Override
+    public String updateTransaction(Transaction transaction) {
+        try {
+            dictionaryFeignClient.updateTransaction(transaction);
+            return "Transaction updated: " + transaction;
+        } catch (Exception e) {
+            return "Failed to update transaction: " + e.getMessage();
+        }
+    }
+
     @Override
     public PreAuthResponse preAuth(PreAuthRequest preAuthRequest) {
         return payriffFeignClient.preAuth(preAuthRequest);

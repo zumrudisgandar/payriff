@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.CompletableFuture;
+
 
 @Service
 public class PayriffServiceImpl implements PayriffService {
@@ -31,7 +33,6 @@ public class PayriffServiceImpl implements PayriffService {
         this.objectMapper = objectMapper;
         this.paymentFeignClient = paymentFeignClient;
     }
-
 
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         try {
@@ -67,7 +68,13 @@ public class PayriffServiceImpl implements PayriffService {
 
                 createOrderResponseDto.setPayload(payload);
 
+                // Save the transaction with the initial status
                 paymentFeignClient.saveTransaction(createOrderResponseDto);
+                System.out.println("Initial transaction saved successfully");
+
+                // Start background status update check
+                CompletableFuture.runAsync(() -> updateOrderStatus(request, createOrderResponseDto, createOrderResponse));
+
                 return createOrderResponse;
             } else {
                 throw new RuntimeException("Failed to create order: " + response.getStatusCode());
@@ -77,6 +84,31 @@ public class PayriffServiceImpl implements PayriffService {
                 HttpClientErrorException httpClientErrorException = (HttpClientErrorException) e;
             }
             throw new RuntimeException("Exception occurred while creating order", e);
+        }
+    }
+
+    private void updateOrderStatus(CreateOrderRequest request, CreateOrderResponseDto createOrderResponseDto, CreateOrderResponse createOrderResponse) {
+        try {
+            // Poll for the updated status
+            GetOrderStatusRequest getOrderStatusRequest = getGetOrderStatusRequest(request, createOrderResponse);
+            GetOrderStatusResponse.Payload getOrderStatusResponsePayload;
+            String orderStatus;
+            do {
+                getOrderStatusResponsePayload = getStatusOrder(getOrderStatusRequest).getPayload();
+                orderStatus = getOrderStatusResponsePayload.getOrderStatus();
+                System.out.println("Polling for status. Current status: " + orderStatus);
+
+                Thread.sleep(5000);
+            } while ("CREATED".equals(orderStatus));
+
+            createOrderResponseDto.getPayload().setOrderStatus(orderStatus);
+
+            // Save the updated transaction
+            paymentFeignClient.updateTransaction(createOrderResponseDto);
+            System.out.println("Transaction updated successfully with new status");
+
+        } catch (Exception e) {
+            System.err.println("Error while updating order status: " + e.getMessage());
         }
     }
 
