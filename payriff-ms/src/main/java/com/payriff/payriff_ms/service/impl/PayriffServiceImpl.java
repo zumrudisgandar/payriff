@@ -50,7 +50,11 @@ public class PayriffServiceImpl implements PayriffService {
                 CreateOrderResponse createOrderResponse = objectMapper.readValue(response.getBody(),
                                     CreateOrderResponse.class);
 
-                paymentFeignClient.saveTransaction(createOrderResponse);
+                GetOrderStatusRequest getOrderStatusRequest = getGetOrderStatusRequest(request, createOrderResponse);
+
+                GetOrderStatusResponse.Payload getOrderStatusResponse = getStatusOrder(getOrderStatusRequest).getPayload();
+
+                paymentFeignClient.saveTransaction(createOrderResponse, getOrderStatusResponse.getOrderStatus());
                 return createOrderResponse;
             } else {
                 throw new RuntimeException("Failed to create order: " + response.getStatusCode());
@@ -61,6 +65,20 @@ public class PayriffServiceImpl implements PayriffService {
             }
             throw new RuntimeException("Exception occurred while creating order", e);
         }
+    }
+
+    private static GetOrderStatusRequest getGetOrderStatusRequest(CreateOrderRequest request, CreateOrderResponse createOrderResponse) {
+        GetOrderStatusRequest getOrderStatusRequest = new GetOrderStatusRequest();
+        GetOrderStatusRequest.GetOrderStatusRequestBody getOrderStatusRequestBody = new
+                GetOrderStatusRequest.GetOrderStatusRequestBody();
+
+        getOrderStatusRequest.setMerchant(request.getMerchant());
+        getOrderStatusRequestBody.setOrderId(createOrderResponse.getPayload().getOrderId());
+        getOrderStatusRequestBody.setSessionId(createOrderResponse.getPayload().getSessionId());
+        getOrderStatusRequestBody.setLanguage(request.getBody().getLanguage());
+
+        getOrderStatusRequest.setBody(getOrderStatusRequestBody);
+        return getOrderStatusRequest;
     }
 
     public GetOrderInformationResponse getOrderInformation(GetOrderInformationRequest getOrderInformationRequest) {

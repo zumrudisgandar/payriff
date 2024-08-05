@@ -15,4 +15,5 @@ public interface PaymentService {
     PreAuthResponse preAuth (PreAuthRequest preAuthRequest);
     ReverseResponse reverse (ReverseRequest reverseRequest);
     CompleteOrderResponse completeOrder (CompleteOrderRequest completeOrderRequest);
+    String saveTransaction(CreateOrderResponse createOrderResponse, String orderStatus);
 }

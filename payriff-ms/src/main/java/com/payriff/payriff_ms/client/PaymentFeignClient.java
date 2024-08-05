@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestBody;
         url = "http://localhost:9090/api/v2")
 public interface PaymentFeignClient {
     @PostMapping("/saveTransaction")
-    ResponseEntity<String> saveTransaction(@RequestBody CreateOrderResponse createOrderResponse);
+    ResponseEntity<String> saveTransaction(@RequestBody CreateOrderResponse createOrderResponse, String orderStatus);
 }
