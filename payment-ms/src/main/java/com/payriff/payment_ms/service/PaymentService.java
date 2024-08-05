@@ -1,13 +1,7 @@
 package com.payriff.payment_ms.service;
 
-import com.payriff.payment_ms.request.CreateOrderRequest;
-import com.payriff.payment_ms.request.GetOrderInformationRequest;
-import com.payriff.payment_ms.request.GetOrderStatusRequest;
-import com.payriff.payment_ms.request.RefundRequest;
-import com.payriff.payment_ms.response.CreateOrderResponse;
-import com.payriff.payment_ms.response.GetOrderInformationResponse;
-import com.payriff.payment_ms.response.GetOrderStatusResponse;
-import com.payriff.payment_ms.response.RefundResponse;
+import com.payriff.payment_ms.request.*;
+import com.payriff.payment_ms.response.*;
 
 public interface PaymentService {
     String handleApprovedPayment(String orderId, String sessionId);
@@ -17,5 +11,9 @@ public interface PaymentService {
     GetOrderInformationResponse getOrderInformation(GetOrderInformationRequest getOrderInformationRequest);
     GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest);
     RefundResponse refund (RefundRequest refundRequest);
+    String saveTransaction(CreateOrderResponse createOrderResponse);
+    PreAuthResponse preAuth (PreAuthRequest preAuthRequest);
+    ReverseResponse reverse (ReverseRequest reverseRequest);
+    CompleteOrderResponse completeOrder (CompleteOrderRequest completeOrderRequest);
     String saveTransaction(CreateOrderResponse createOrderResponse, String orderStatus);
 }

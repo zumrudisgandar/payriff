@@ -1,13 +1,7 @@
 package com.payriff.payment_ms.client;
 
-import com.payriff.payment_ms.request.CreateOrderRequest;
-import com.payriff.payment_ms.request.GetOrderInformationRequest;
-import com.payriff.payment_ms.request.GetOrderStatusRequest;
-import com.payriff.payment_ms.request.RefundRequest;
-import com.payriff.payment_ms.response.CreateOrderResponse;
-import com.payriff.payment_ms.response.GetOrderInformationResponse;
-import com.payriff.payment_ms.response.GetOrderStatusResponse;
-import com.payriff.payment_ms.response.RefundResponse;
+import com.payriff.payment_ms.request.*;
+import com.payriff.payment_ms.response.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,4 +22,13 @@ public interface PayriffFeignClient {
 
     @PostMapping("/refund")
     RefundResponse refund (@RequestBody RefundRequest refundRequest);
+
+    @PostMapping("/preAuth")
+    PreAuthResponse preAuth(@RequestBody PreAuthRequest request);
+
+    @PostMapping("/reverse")
+    ReverseResponse reverse(@RequestBody ReverseRequest request);
+
+    @PostMapping("/completeOrder")
+    CompleteOrderResponse completeOrder(@RequestBody CompleteOrderRequest completeOrderRequest);
 }
