@@ -17,5 +17,5 @@ public interface PaymentService {
     GetOrderInformationResponse getOrderInformation(GetOrderInformationRequest getOrderInformationRequest);
     GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest);
     RefundResponse refund (RefundRequest refundRequest);
-    String saveTransaction(CreateOrderResponse createOrderResponse);
+    String saveTransaction(CreateOrderResponse createOrderResponse, String orderStatus);
 }

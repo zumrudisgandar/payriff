@@ -68,11 +68,11 @@ public class PaymentServiceImpl implements PaymentService {
         return payriffFeignClient.refund(refundRequest);
     }
 
-    public String saveTransaction(CreateOrderResponse createOrderResponse) {
+    public String saveTransaction(CreateOrderResponse createOrderResponse, String orderStatus) {
         try {
-            System.out.println("MANUAL TEST: " + createOrderResponse);
-            dictionaryFeignClient.saveTransaction(createOrderResponse);
-            return "Transaction saved: " + createOrderResponse;
+            System.out.println("MANUAL TEST: " + createOrderResponse + orderStatus);
+            dictionaryFeignClient.saveTransaction(createOrderResponse, orderStatus);
+            return "Transaction saved: " + createOrderResponse + orderStatus;
         } catch (Exception e) {
             return "Failed to update approved payment: " + e.getMessage();
         }

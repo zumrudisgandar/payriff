@@ -41,8 +41,8 @@ public class PaymentController {
     }
 
     @PostMapping("/saveTransaction")
-    public ResponseEntity<String> saveTransaction(@RequestBody CreateOrderResponse createOrderResponse) {
-        String response = paymentService.saveTransaction(createOrderResponse);
+    public ResponseEntity<String> saveTransaction(@RequestBody CreateOrderResponse createOrderResponse, String orderStatus) {
+        String response = paymentService.saveTransaction(createOrderResponse, orderStatus);
         return ResponseEntity.ok(response);
     }
 

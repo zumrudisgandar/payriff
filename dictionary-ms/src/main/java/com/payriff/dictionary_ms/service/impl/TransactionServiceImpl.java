@@ -18,7 +18,7 @@ public class TransactionServiceImpl implements TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Transaction saveTransaction(TransactionDto transactionDTO) {
+    public Transaction saveTransaction(TransactionDto transactionDTO, String orderStatus) {
         Transaction transaction = new Transaction();
         Transaction.Payload payload = new Transaction.Payload();
 
@@ -28,6 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
         payload.setOrderId(transactionDTO.getPayload().getOrderId());
         payload.setSessionId(transactionDTO.getPayload().getSessionId());
         payload.setPaymentUrl(transactionDTO.getPayload().getPaymentUrl());
+        payload.setOrderStatus(orderStatus);
 
         transaction.setPayload(payload);
 

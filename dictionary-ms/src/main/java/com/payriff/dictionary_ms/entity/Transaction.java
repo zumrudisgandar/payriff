@@ -32,5 +32,8 @@ public class Transaction {
 
         @JsonProperty("sessionId")
         private String sessionId;
+
+        @JsonProperty("orderStatus")
+        private String orderStatus;
     }
 }
