@@ -50,7 +50,7 @@ public class PayriffServiceImpl implements PayriffService {
 
             if (response.getStatusCode() == HttpStatus.OK) {
                 CreateOrderResponse createOrderResponse = objectMapper.readValue(response.getBody(),
-                                    CreateOrderResponse.class);
+                        CreateOrderResponse.class);
 
                 GetOrderStatusRequest getOrderStatusRequest = getGetOrderStatusRequest(request, createOrderResponse);
                 GetOrderStatusResponse.Payload getOrderStatusResponse = getStatusOrder(getOrderStatusRequest).getPayload();
@@ -150,7 +150,7 @@ public class PayriffServiceImpl implements PayriffService {
         }
     }
 
-    public GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest) {
+    public GetOrderStatusResponse getStatusOrder(GetOrderStatusRequest getOrderStatusRequest) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -174,7 +174,7 @@ public class PayriffServiceImpl implements PayriffService {
         }
     }
 
-    public RefundResponse refund (RefundRequest refundRequest) {
+    public RefundResponse refund(RefundRequest refundRequest) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -196,33 +196,8 @@ public class PayriffServiceImpl implements PayriffService {
         } catch (Exception e) {
             throw new RuntimeException("Exception occured during refund process", e);
         }
-
-
     }
-    @Override
-    public PreAuthResponse preAuth(PreAuthRequest preAuthRequest) {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
 
-            HttpEntity<PreAuthRequest> entity = new HttpEntity<>(preAuthRequest, headers);
-            ResponseEntity<String> response = restTemplate.exchange(
-                    payriffApiUrl + "/preAuth",
-                    HttpMethod.POST,
-                    entity,
-                    String.class
-            );
-
-            if (response.getStatusCode() == HttpStatus.OK) {
-                return objectMapper.readValue(response.getBody(), PreAuthResponse.class);
-            } else {
-                throw new RuntimeException("Failed to preAuth: " + response.getStatusCode());
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Exception occurred during pre-auth process", e);
-        }
-    }
     @Override
     public ReverseResponse reverse(ReverseRequest reverseRequest) {
         try {
@@ -241,35 +216,61 @@ public class PayriffServiceImpl implements PayriffService {
             if (response.getStatusCode() == HttpStatus.OK) {
                 return objectMapper.readValue(response.getBody(), ReverseResponse.class);
             } else {
-                throw new RuntimeException("Failed to preAuth: " + response.getStatusCode());
+                throw new RuntimeException("Failed to reverse: " + response.getStatusCode());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Exception occurred during pre-auth process", e);
+            throw new RuntimeException("Exception occurred during reverse process", e);
         }
     }
 
     @Override
-    public CompleteOrderResponse completeOrder(CompleteOrderRequest completeOrderRequest) {
+    public CardSaveResponse cardSave(CardSaveRequest cardSaveRequest) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", "B1B6A686E098423AA64552915E611B49");
+            headers.set("Authorization", secretKey);
 
-            HttpEntity<CompleteOrderRequest> entity = new HttpEntity<>(completeOrderRequest, headers);
+            HttpEntity<CardSaveRequest> entity = new HttpEntity<>(cardSaveRequest, headers);
             ResponseEntity<String> response = restTemplate.exchange(
-                    payriffApiUrl + "/completeOrder",
+                    payriffApiUrl + "/cardSave",
                     HttpMethod.POST,
                     entity,
                     String.class
             );
 
             if (response.getStatusCode() == HttpStatus.OK) {
-                return objectMapper.readValue(response.getBody(), CompleteOrderResponse.class);
+                return objectMapper.readValue(response.getBody(), CardSaveResponse.class);
             } else {
-                throw new RuntimeException("Failed to preAuth: " + response.getStatusCode());
+                throw new RuntimeException("Failed to card save: " + response.getStatusCode());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Exception occurred during pre-auth process", e);
+            throw new RuntimeException("Exception occurred while card saving", e);
         }
     }
+
+    @Override
+    public AutoPayResponse autoPay(AutoPayRequest autoPayRequest) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", secretKey);
+
+            HttpEntity<AutoPayRequest> entity = new HttpEntity<>(autoPayRequest, headers);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    payriffApiUrl + "/autoPay",
+                    HttpMethod.POST,
+                    entity,
+                    String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return objectMapper.readValue(response.getBody(), AutoPayResponse.class);
+            } else {
+                throw new RuntimeException("Failed to auto pay: " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Exception occurred while auto paying", e);
+        }
+    }
+
 }

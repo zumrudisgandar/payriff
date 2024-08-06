@@ -62,21 +62,21 @@ public class PaymentController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/preAuth")
-    public ResponseEntity<PreAuthResponse> preAuth (@RequestBody PreAuthRequest request) {
-        PreAuthResponse response = paymentService.preAuth(request);
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping("/reverse")
     public ResponseEntity<ReverseResponse> reverse (@RequestBody ReverseRequest request) {
         ReverseResponse response = paymentService.reverse(request);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/completeOrder")
-    public ResponseEntity<CompleteOrderResponse> completeOrder (@RequestBody CompleteOrderRequest request) {
-        CompleteOrderResponse response = paymentService.completeOrder(request);
+    @PostMapping("/cardSave")
+    public ResponseEntity<CardSaveResponse> cardSave (@RequestBody CardSaveRequest cardSaveRequest) {
+        CardSaveResponse response = paymentService.cardSave(cardSaveRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/autoPay")
+    public ResponseEntity<AutoPayResponse> autoPay (@RequestBody AutoPayRequest autoPayRequest) {
+        AutoPayResponse response = paymentService.autoPay(autoPayRequest);
         return ResponseEntity.ok(response);
     }
 
