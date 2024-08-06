@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.OK;
-
 @RestController
 @RequestMapping("/api/v2")
 public class PayriffController {
@@ -41,7 +39,7 @@ public class PayriffController {
         try {
             CreateOrderResponse response = new CreateOrderResponse();
 
-            CreateOrderResponse response1 = payriffService.createOrder(request);
+            CreateOrderResponse response1 = payriffService.order(request);
             CreateOrderResponse.Payload payload = new CreateOrderResponse.Payload();
             payload.setPaymentUrl(response1.getPayload().getPaymentUrl());
             payload.setOrderId(response1.getPayload().getOrderId());

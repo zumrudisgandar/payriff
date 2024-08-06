@@ -4,7 +4,7 @@ import com.payriff.payriff_ms.request.*;
 import com.payriff.payriff_ms.response.*;
 
 public interface PayriffService {
-    CreateOrderResponse createOrder(CreateOrderRequest request);
+    CreateOrderResponse order(CreateOrderRequest request);
     GetOrderInformationResponse getOrderInformation(GetOrderInformationRequest getOrderInformationRequest);
     GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest);
     RefundResponse refund (RefundRequest refundRequest);

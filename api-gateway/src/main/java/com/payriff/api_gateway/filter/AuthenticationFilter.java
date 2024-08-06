@@ -34,9 +34,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             if (validator.isSecured.test(exchange.getRequest())) {
-
-                if (!exchange.getRequest().getHeaders()
-                        .containsKey(HttpHeaders.AUTHORIZATION)) {
+                if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     throw new RuntimeException("missing authorization header");
                 }
 
@@ -45,29 +43,33 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     authHeader = authHeader.substring(7);
                 }
                 try {
-
-                    template.getForObject("http://localhost:8085/auth/validate?token=" + authHeader, String.class);
+                    // Validate the token with security-ms
+                    template.getForObject("http://localhost:9898/api/auth/validate?token=" + authHeader, String.class);
                     jwtUtil.validateToken(authHeader);
                     List<String> roles = jwtUtil.extractRoles(authHeader);
                     String userId = jwtUtil.extractUserId(authHeader);
                     String userEmail = jwtUtil.extractUserEmail(authHeader);
 
-
-                    if (userId!=null && userEmail!=null){
+                    if (userId != null && userEmail != null) {
                         ServerHttpRequest request = exchange.getRequest().mutate()
-                                .header("X-User-Id", userId).header("X-User-Email",userEmail)
+                                .header("X-User-Id", userId)
+                                .header("X-User-Email", userEmail)
                                 .build();
                         exchange = exchange.mutate().request(request).build();
                     }
 
-
                     if (roles == null || !roles.contains(config.getRole())) {
-                        throw new RuntimeException("un authorized access to application");
+                        throw new RuntimeException("an authorized access to application");
                     }
 
+                    // Forward the request with the Authorization header to payment-ms
+                    ServerHttpRequest updatedRequest = exchange.getRequest().mutate()
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + authHeader)
+                            .build();
+                    exchange = exchange.mutate().request(updatedRequest).build();
                 } catch (Exception e) {
                     System.out.println("invalid access...!");
-//                    throw new UnAuthException("Unauthorized request!");
+                    throw new RuntimeException("Unauthorized request!");
                 }
             }
             return chain.filter(exchange);
