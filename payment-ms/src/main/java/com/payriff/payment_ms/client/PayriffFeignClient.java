@@ -23,12 +23,12 @@ public interface PayriffFeignClient {
     @PostMapping("/refund")
     RefundResponse refund (@RequestBody RefundRequest refundRequest);
 
-    @PostMapping("/preAuth")
-    PreAuthResponse preAuth(@RequestBody PreAuthRequest request);
-
     @PostMapping("/reverse")
     ReverseResponse reverse(@RequestBody ReverseRequest request);
 
-    @PostMapping("/completeOrder")
-    CompleteOrderResponse completeOrder(@RequestBody CompleteOrderRequest completeOrderRequest);
+    @PostMapping("/cardSave")
+    CardSaveResponse cardSave(@RequestBody CardSaveRequest cardSaveRequest);
+
+    @PostMapping("/autoPay")
+    AutoPayResponse autoPay(@RequestBody AutoPayRequest autoPayRequest);
 }

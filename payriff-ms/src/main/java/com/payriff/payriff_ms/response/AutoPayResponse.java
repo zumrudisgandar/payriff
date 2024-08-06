@@ -3,8 +3,8 @@ package com.payriff.payriff_ms.response;
 import lombok.Data;
 
 @Data
-public class CompleteOrderResponse {
+public class AutoPayResponse {
     private String code;
-    private String InternalMessage;
+    private String internalMessage;
     private String message;
 }

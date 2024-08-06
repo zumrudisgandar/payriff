@@ -1,9 +1,9 @@
-package com.payriff.payriff_ms.response;
+package com.payriff.payment_ms.response;
 
 import lombok.Data;
 
 @Data
-public class PreAuthResponse {
+public class CardSaveResponse {
     private String code;
     private String internalMessage;
     private String message;
