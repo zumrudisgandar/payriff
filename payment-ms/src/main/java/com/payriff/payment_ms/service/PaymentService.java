@@ -10,9 +10,9 @@ public interface PaymentService {
     GetOrderInformationResponse getOrderInformation(GetOrderInformationRequest getOrderInformationRequest);
     GetOrderStatusResponse getStatusOrder (GetOrderStatusRequest getOrderStatusRequest);
     RefundResponse refund (RefundRequest refundRequest);
-    PreAuthResponse preAuth (PreAuthRequest preAuthRequest);
     ReverseResponse reverse (ReverseRequest reverseRequest);
-    CompleteOrderResponse completeOrder (CompleteOrderRequest completeOrderRequest);
     String saveTransaction(Transaction transaction);
     String updateTransaction(Transaction transaction);
+    CardSaveResponse cardSave(CardSaveRequest cardSaveRequest);
+    AutoPayResponse autoPay(AutoPayRequest autoPayRequest);
 }

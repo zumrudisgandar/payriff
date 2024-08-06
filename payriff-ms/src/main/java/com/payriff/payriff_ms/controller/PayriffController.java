@@ -67,27 +67,31 @@ public class PayriffController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/preAuth")
-    public ResponseEntity<PreAuthResponse> preAuth(@RequestBody PreAuthRequest request) {
-        try {
-            PreAuthResponse response = new PreAuthResponse();
+    @PostMapping("/reverse")
+    public ResponseEntity<ReverseResponse> reverse(@RequestBody ReverseRequest request) {
+        ReverseResponse response = payriffService.reverse(request);
+        return ResponseEntity.ok(response);
+    }
 
-            PreAuthResponse response1 = payriffService.preAuth(request);
-            System.out.println("TEST MANUAL: " + response1);
-            PreAuthResponse.Payload payload = new PreAuthResponse.Payload();
+    @PostMapping("/cardSave")
+    public ResponseEntity<CardSaveResponse> cardSave(@RequestBody CardSaveRequest request) {
+        try {
+            CardSaveResponse response = new CardSaveResponse();
+
+            CardSaveResponse response1 = payriffService.cardSave(request);
+            CardSaveResponse.Payload payload = new CardSaveResponse.Payload();
             payload.setPaymentUrl(response1.getPayload().getPaymentUrl());
             payload.setOrderId(response1.getPayload().getOrderId());
             payload.setSessionId(response1.getPayload().getSessionId());
-
             response.setPayload(payload);
 
             response.setCode("200");
             response.setMessage("Order created successfully");
-            return ResponseEntity.status(OK).body(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("TEST MANUAL: ERROR");
-            PreAuthResponse errorResponse = new PreAuthResponse();
+            CardSaveResponse errorResponse = new CardSaveResponse();
             errorResponse.setCode("500");
             errorResponse.setMessage("Internal Server Error");
 
@@ -95,15 +99,9 @@ public class PayriffController {
         }
     }
 
-    @PostMapping("/reverse")
-    public ResponseEntity<ReverseResponse> reverse(@RequestBody ReverseRequest request) {
-        ReverseResponse response = payriffService.reverse(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/completeOrder")
-    public ResponseEntity<CompleteOrderResponse> completeOrder(@RequestBody CompleteOrderRequest request){
-        CompleteOrderResponse response = payriffService.completeOrder(request);
-        return ResponseEntity.ok(response);
+    @PostMapping("/autoPay")
+    public ResponseEntity<AutoPayResponse> autoPay(@RequestBody AutoPayRequest request) {
+        AutoPayResponse autoPayResponse = payriffService.autoPay(request);
+        return ResponseEntity.ok(autoPayResponse);
     }
 }

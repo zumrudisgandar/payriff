@@ -58,17 +58,18 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PreAuthResponse preAuth(PreAuthRequest preAuthRequest) {
-        return payriffFeignClient.preAuth(preAuthRequest);
+    public CardSaveResponse cardSave(CardSaveRequest cardSaveRequest) {
+        return payriffFeignClient.cardSave(cardSaveRequest);
+    }
+
+    @Override
+    public AutoPayResponse autoPay(AutoPayRequest autoPayRequest) {
+        return payriffFeignClient.autoPay(autoPayRequest);
+
     }
 
     @Override
     public ReverseResponse reverse(ReverseRequest reverseRequest) {
         return payriffFeignClient.reverse(reverseRequest);
-    }
-
-    @Override
-    public CompleteOrderResponse completeOrder(CompleteOrderRequest completeOrderRequest) {
-        return payriffFeignClient.completeOrder(completeOrderRequest);
     }
 }
