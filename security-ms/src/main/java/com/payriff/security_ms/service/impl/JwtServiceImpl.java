@@ -31,9 +31,10 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
-    public String generateToken(String userName, Collection<? extends GrantedAuthority> authorities) {
+    public String generateToken(String userName, String email, Collection<? extends GrantedAuthority> authorities) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        claims.put("email", email);
         return createToken(claims, userName);
     }
 

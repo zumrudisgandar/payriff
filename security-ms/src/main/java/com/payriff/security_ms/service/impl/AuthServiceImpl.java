@@ -35,8 +35,9 @@ public class AuthServiceImpl implements AuthService {
         Optional<UserCredential> userOptional = dictionaryFeignClient.findUserByUsername(userName);
         if (userOptional.isPresent()) {
             UserCredential user = userOptional.get();
+            String email = user.getEmail();
             Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-            return jwtService.generateToken(userName, authorities);
+            return jwtService.generateToken(userName, email, authorities);
         }
         throw new UsernameNotFoundException("User not found");
     }

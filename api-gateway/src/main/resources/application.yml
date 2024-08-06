@@ -21,4 +21,12 @@ spring:
           uri: lb://EUREKASERVER
           predicates:
             - Path=/eurekaserver/**
+        - id: payment-ms
+          uri: http://localhost:9090
+          predicates:
+            - Path=/api/v2/**
+        - id: payriff-ms
+          uri: http://localhost:9595
+          predicates:
+            - Path=/api/v2/**
 

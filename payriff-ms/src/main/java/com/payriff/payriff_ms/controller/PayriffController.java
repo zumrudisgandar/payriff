@@ -1,5 +1,6 @@
 package com.payriff.payriff_ms.controller;
 
+import com.payriff.payriff_ms.client.PaymentFeignClient;
 import com.payriff.payriff_ms.request.*;
 import com.payriff.payriff_ms.response.*;
 import com.payriff.payriff_ms.service.PayriffService;
@@ -15,10 +16,24 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/api/v2")
 public class PayriffController {
-    private final PayriffService payriffService;
 
-    public PayriffController(PayriffService payriffService) {
+    private final PayriffService payriffService;
+    private final PaymentFeignClient paymentFeignClient;
+
+    public PayriffController(PayriffService payriffService, PaymentFeignClient paymentFeignClient) {
         this.payriffService = payriffService;
+        this.paymentFeignClient = paymentFeignClient;
+    }
+
+    @PostMapping("/handleApprove")
+    public ResponseEntity<ApproveResponse> handleApprove(@RequestBody ApproveResponse approveResponse) {
+        try {
+//            paymentFeignClient.updateTransaction(approveResponse);
+//            return  ResponseEntity.ok("Transaction details saved successfully");
+            return  ResponseEntity.ok(approveResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(approveResponse);
+        }
     }
 
     @PostMapping("/createOrder")
