@@ -36,6 +36,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         System.out.println("MANUAL1: entered gateway filter!");
 
         return ((exchange, chain) -> {
+
+            if (exchange.getRequest().getURI().getPath().contains("/api/v2")) {
+                return chain.filter(exchange);
+            }
+
             if (validator.isSecured.test(exchange.getRequest())) {
                 System.out.println("MANUAL2: entered next step after gateway filter!");
                 if (!exchange.getRequest().getHeaders()
