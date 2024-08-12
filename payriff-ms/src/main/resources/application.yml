@@ -5,7 +5,7 @@ spring:
 payriff:
   api:
     url: https://api.payriff.com/api/v2
-  secret-key: B1B6A686E098423AA64552915E611B49
+  secret-key: ${SECRET_KEY}
 
 eureka:
   instance:
