@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v2")
+@RequestMapping("/api/v2")
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -79,5 +79,4 @@ public class PaymentController {
         AutoPayResponse response = paymentService.autoPay(autoPayRequest);
         return ResponseEntity.ok(response);
     }
-
 }

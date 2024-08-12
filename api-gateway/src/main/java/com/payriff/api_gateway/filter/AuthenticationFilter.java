@@ -41,25 +41,30 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);
+                    System.out.println("MANUAL4: Authorization header" + authHeader);
                 }
                 try {
-                    // Validate the token with security-ms
+                    System.out.println("MANUAL5: Validating token with security-ms: {}" + authHeader);
                     template.getForObject("http://localhost:9898/api/auth/validate?token=" + authHeader, String.class);
                     jwtUtil.validateToken(authHeader);
                     List<String> roles = jwtUtil.extractRoles(authHeader);
                     String userId = jwtUtil.extractUserId(authHeader);
                     String userEmail = jwtUtil.extractUserEmail(authHeader);
 
-                    if (userId != null && userEmail != null) {
+
+                    if (userId!=null && userEmail!=null){
+                        System.out.println("MANUAL6: userId: " + userId + "userEmail" + userEmail);
                         ServerHttpRequest request = exchange.getRequest().mutate()
                                 .header("X-User-Id", userId)
-                                .header("X-User-Email", userEmail)
+                                .header("X-User-Email",userEmail)
+                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + authHeader)
                                 .build();
                         exchange = exchange.mutate().request(request).build();
                     }
 
                     if (roles == null || !roles.contains(config.getRole())) {
-                        throw new RuntimeException("an authorized access to application");
+                        System.out.println("MANUAL7: Unauthorized access attempt with roles: {}" + roles);
+                        throw new RuntimeException("un authorized access to application");
                     }
 
                     // Forward the request with the Authorization header to payment-ms
@@ -67,8 +72,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + authHeader)
                             .build();
                     exchange = exchange.mutate().request(updatedRequest).build();
+
                 } catch (Exception e) {
-                    System.out.println("invalid access...!");
+                    System.out.println("MANUAL7: Invalid access: {}" + e.getMessage());
                     throw new RuntimeException("Unauthorized request!");
                 }
             }
