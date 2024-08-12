@@ -34,7 +34,7 @@ public class PayriffServiceImpl implements PayriffService {
         this.paymentFeignClient = paymentFeignClient;
     }
 
-    public CreateOrderResponse createOrder(CreateOrderRequest request) {
+    public CreateOrderResponse order(CreateOrderRequest request) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -96,8 +96,6 @@ public class PayriffServiceImpl implements PayriffService {
             do {
                 getOrderStatusResponsePayload = getStatusOrder(getOrderStatusRequest).getPayload();
                 orderStatus = getOrderStatusResponsePayload.getOrderStatus();
-                System.out.println("Polling for status. Current status: " + orderStatus);
-
                 Thread.sleep(5000);
             } while ("CREATED".equals(orderStatus));
 

@@ -32,20 +32,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     @Override
     public GatewayFilter apply(Config config) {
-
-        System.out.println("MANUAL1: entered gateway filter!");
-
         return ((exchange, chain) -> {
-
-            if (exchange.getRequest().getURI().getPath().contains("/api/v2")) {
-                return chain.filter(exchange);
-            }
-
             if (validator.isSecured.test(exchange.getRequest())) {
-                System.out.println("MANUAL2: entered next step after gateway filter!");
-                if (!exchange.getRequest().getHeaders()
-                        .containsKey(HttpHeaders.AUTHORIZATION)) {
-                    System.out.println("MANUAL3: Missing Authorization header");
+                if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     throw new RuntimeException("missing authorization header");
                 }
 
@@ -72,7 +61,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                                 .build();
                         exchange = exchange.mutate().request(request).build();
                     }
-
 
                     if (roles == null || !roles.contains(config.getRole())) {
                         System.out.println("MANUAL7: Unauthorized access attempt with roles: {}" + roles);
